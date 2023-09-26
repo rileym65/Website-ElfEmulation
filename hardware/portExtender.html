@@ -1,0 +1,47 @@
+<html>
+<head>
+  <title>Port Extender</title>
+</head>
+
+<body bgcolor=white text=black>
+<center><h3>Port Extender</h3></center>
+<p> This circuit provides the means to add up to 256 additional I/O ports to
+and Elf computer.  Two of the original N ports are used to access the new ports.
+<p>Port 5 is used to select an extended port.  Port 6 is then used to read/write
+the extended port.
+<p><h3>Signal Descriptions</h3>
+<table border=0>
+  <tr>
+    <td>MRD</td>
+    <td>MRD signal from the 1802 processor
+  </tr>
+  <tr>
+    <td>N0-N1</td>
+    <td>These are the N lines from the 1802</td>
+  </tr>
+  <tr>
+    <td>D0-D7</td>
+    <td>These are the data bus lines from the 1802</td>
+  </tr>
+  <tr>
+    <td>INP</td>
+    <td>This signal will be low when the cpu performs any INP instruction</td>
+  </tr>
+  <tr>
+    <td>OUT</td>
+    <td>This signal will be low when the cpu performs any OUT instruction</td>
+  </tr>
+  <tr>
+    <td>PORT1-PORT7</td>
+    <td>These are active low signals that are decoded from the N lines</td>
+  </tr>
+  <tr>
+    <td>IO0-IO7</td>
+    <td>These are the extended I/O address lines</td>
+  </tr>
+</table>
+
+<hr>
+<img src="portExtender.gif">
+</body>
+</html>

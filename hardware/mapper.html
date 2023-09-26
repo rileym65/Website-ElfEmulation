@@ -1,0 +1,50 @@
+<html>
+<head>
+  <title>1mb Memory Mapper</title>
+</head>
+
+<body bgcolor=white text=black>
+<center><h3>1mb Memory Mapper</h3></center>
+<p>This circuit provides up to 1mb of ram on a processor that normally
+supports up to 64k.  When used with Elf computers, the port extender must
+be used to provide the necessary signalling for this circuit.</p>
+<p>This circuit works on the principal of utilizing the top 4 address lines
+to address an 8-bit memory to provide an additional 4 bits of address space,
+for a total of 20 address lines instead of the standard 16.  Memory is broken
+up into segments of 4k each.  The memory can store the base position for up
+to 15 blocks.  The bottom block (addr 0) is undecoded so that a reset of the
+processor will always provide the orignal bottom 4k of memory.</p>
+<h4>Theory of Operation</h4>
+<p>Ic1 provides the switching mechanism to select whether the top 4 address lines
+from the processor or the bottom 4 lines of the i/o address bus are used to
+select from the 7489 memories.  In the normal mode ic1 will transfer the
+cpu address lines through to the memories.
+<p>The 7489 memory inverts its output from whatever was input, therefore ic2a and ic2b are used to invert the recalled addresses before sending the sginals
+on to main memory.</p>
+<p>Ic3a, 3b, 3c are used to look for the low block of memory.  If any of the
+top 4 address lines is high, then we want to use memory translation.  The output
+of the or gates is then fed into the inverter ic5b in order to provide the 
+correct signalling for the block memories.  When ME is low on the block
+memories, address translation will occur.  When ME is high (all top 4 address
+lines are low) then the block memories will output highs, which are then
+inverted to lows using ic2a and b.  Therefore, if all the top 4 address lines
+are zero, it does not matter what is in the block memories, A12-A19 will be
+low.</p>
+<p>The port decoding circuitry is triggered when the top 4 lines of the i/o bus
+are low, therefore ports 0-15 can be used to write the memory cells of the
+block memory. Ic3d, 4a, and 4b are used to decode the top 4 address lines.  All
+4 lines must be low for these 3 gates to output a low.  This is then fed into
+ic4c which ors the value with the OUT signal.  At this stage OUT must be low
+and all 4 io lines must be low.  The output of ic4c is then fed into the 
+multiplexer ic1 in order to select the 4 low io lines to address the block
+memory.  This signal is also sent to ic4d along with the inverted value of TPB.
+When the timing pulse from the processor occurs the WE of the memories will
+be brought low so that the data from D0-D7 can be stored into the block
+memory.</p>
+<p><b>Note:</b>Becasuse during the writing of the block memory, the top 4 
+address lines will not be valid memory addresses, code to write the block
+memory must be in the low 4k of ram.
+<hr>
+<img src="ramextender.gif">
+</body>
+</html>

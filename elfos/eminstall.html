@@ -1,0 +1,112 @@
+<html>
+<head>
+  <title>Intalling Elf/OS on RCS Elf Emulator</title>
+</head>
+
+<body bgcolor=white text=black>
+<center><h3>Installing Elf/OS on RCS Elf Emulator</h3></center>
+This document will walk you through the process of installing Elf/OS on the
+RCS Elf Emulator.
+<h4>Requirements:</h4>
+<ul>
+  <li>Emulator version 2.2 or higher
+  <li>Bios rom image
+  <li>Elf/OS intall rom image
+</ul>
+
+<p><b>1.</b> Start by loading the emulator.  Here is the command line that should
+      be used:
+<p><tt>./elf -ide -vt100=e2 -elf2 -64k -R bios.rom -R elfos.rom -a -uc</tt>
+
+<p><b>2.</b> Initiate load mode and enter these 3 bytes:
+<p><tt>C0 90 00</tt></p>
+This initiates a long branch to the installer program.
+
+<p><b>3.</b> Leave load and mode and initiate run mode.  You will then need
+      to press &lt;ENTER&gt; once on the vt100 windows to initiate the serial
+      connection. at which point you should see this menu:
+<pre>
+   Elf/Os Installation
+   1> Run hard drive init tool
+   2> Run filesystem gen tool
+   3> Run sys tool
+   4> Install binaries
+   5> Boot Elf/OS
+
+      Option ?
+</pre>
+
+<p><b>4.</b> <b>Note:</b>This step only needs to be performed once.  If you have already
+run the hard drive init tool on your emulated drives, you will never need to
+run it again.
+<p>Run option 1 to initialize the hard drive.  Depending on the speed  of your
+computer and the size of the emulated drive this could take from several
+minutes to a couple hours to complete.  When the init is complete, you should
+see something similar to:
+<pre>
+   Total Sectors: 53248
+   Format Complete
+</pre>
+and the menu will be redrawn.
+
+<p><b>5.</b><b>Note:</b> This step you also normally need to run only once.
+You would only need to run this option agiain if you desire to wipe out the
+contents of your drive.
+<p>Run option 2 to setup the filesystem on the disk.  After running this step
+you should see something similar to:
+<pre>
+  Total Sectors: 53248
+  AU Size: 8
+  Total AUs: 6656
+  Master Dir Sector: 48
+  Filesystem generation complete
+</pre>
+After which you again get the installation menu.
+
+<p><b>6.</b>Run option 3 to copy the OS kernel to the hard disk.  You should
+  see:
+<pre>
+  System copied.
+</pre>
+
+<p><b>7.</b> There is currently a bug in the installer application that I have
+not yet tracked down.  Before running option 4 on the main menu take the 
+computer out of run mode, enter load mode and re-enter the C0 90 00 bytes and
+then back to run mode.  do not forget to press &lt;ENTER&gt; to set the
+terminal baud rate.
+
+<p><b>8.</b> Run option 4 to install the binary utilities onto the disk.
+<ul>
+  <li>DIR - This program allows you to view the disk directory
+  <li>DUMP - This program allows you to dump memory contents to executable files
+  <li>MINIMON - This program is a simple monitor program that you can use to 
+      view/modify memory
+  <li>LOAD - This program loads an executable program into memory without
+      executing it
+  <li>FREE - This program shows you disk usage statistics
+  <li>DEL - This program allows you to delete files
+  <li>SETBOOT - This program rewrites the boot loader
+  <li>HEXDUMP - This program displays the contents of a file in hex
+  <li>COPY - This program allows you to copy files
+  <li>RENAME - This program allows you to rename files
+  <li>TYPE - This program displays the contents of a ascii file
+  <li>EDIT - This program is a really simple text editor
+  <li>EXEC - This program allows you to execute a program already in memory
+  <li>INSTALL - This program allows you to load additional packages
+</ul>
+
+<p><b>9.</b>Elf/OS is now installed.  You can sellect option 5 to boot into
+Elf/OS.  Note that when booting Elf/OS the data displays will count from 00 to 
+0E,  when the displays are 0E, press &lt;ENTER&gt; to set the terminal baud
+rate, and then you should see:
+<pre>
+  Elf/OS Ready
+</pre>
+
+From this time on you would enter the bytes C0 FF 00 when you want to boot
+Elf/OS.
+
+</body>
+</html>
+
+

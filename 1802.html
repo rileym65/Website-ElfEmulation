@@ -1,0 +1,946 @@
+<html>
+<head>
+  <title>1802 Processor</title>
+</head>
+
+<body bgcolor=white text=black>
+
+<table border=0>
+  <tr>
+    <td><a href="index.html"><img src="home.gif" border=0></a></td>
+    <td><a href="emulator.html"><img src="emulator.gif" border=0></a></td>
+    <td><a href="rcasm.html"><img src="rcasm.gif" border=0></a></td>
+    <td><a href="1802.html"><img src="cpu1802.gif" border=0></a></td>
+    <td><a href="elfos.html"><img src="elfos.gif" border=0></a></td>
+    <td><a href="software.html"><img src="software.gif" border=0></a></td>
+    <td><a href="hardware.html"><img src="hardware.gif" border=0></a></td>
+    <td><a href="gallery.html"><img src="gallery.gif" border=0></a></td>
+  </tr>
+</table>
+
+<b>Registers:</b><br>
+<table border=0>
+  <tr>
+    <th align=left>Register</th>
+    <th align=left>Bits</th>
+    <th align=left>Description</th>
+  </tr>
+  <tr>
+    <td>D</td>
+    <td>8</td>
+    <td>Data Register</td>
+  </tr>
+  <tr>
+    <td>DF</td>
+    <td>1</td>
+    <td>Data Flag (carry/borrow)</td>
+  </tr>
+  <tr>
+    <td>R(<i>0-f</i>)</td>
+    <td>16</td>
+    <td>General Registers</td>
+  </tr>
+  <tr>
+    <td>P</td>
+    <td>4</td>
+    <td>Specifies which R register is program counter</td>
+  </tr>
+  <tr>
+    <td>X</td>
+    <td>4</td>
+    <td>Specifies which R register is data pointer</td>
+  </tr>
+  <tr>
+    <td>I</td>
+    <td>4</td>
+    <td>High nybble of instruction byte, not directly accessable</td>
+  </tr>
+  <tr>
+    <td>N</td>
+    <td>4</td>
+    <td>Low nybble of instruction byte, not directly accessable</td>
+  </tr>
+  <tr>
+    <td>T</td>
+    <td>8</td>
+    <td>Holds X and P during interrupt, X is high nybble, not directly accessable</td>
+  </tr>
+  <tr>
+    <td>IE</td>
+    <td>1</td>
+    <td>Interrupt Enable</td>
+  </tr>
+  <tr>
+    <td>Q</td>
+    <td>1</td>
+    <td>Output Flip/Flop</td>
+  </tr>
+</table>
+<hr>
+<table border=0>
+<tr>
+  <th align=left>Opcode</th>
+  <th align=left>Mnemonic</th>
+  <th align=left>Instruction</th>
+  <th align=left>Operation</th>
+</tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>0N</td><td>LDN</td><td>Load via N</td><td>M(R(N))->D; For N not 0</td></tr>
+<tr valign=top><td>4N</td><td>LDA</td><td>Load Advance</td><td>M(R(N))->D; R(N)+1->R(N)</td></tr>
+<tr valign=top><td>F0</td><td>LDX</td><td>Load via X</td><td>M(R(X))->D</td></tr>
+<tr valign=top><td>72</td><td>LDXA</td><td>Load via X and advance</td><td>M(R(X))->D; R(X)+1->R(X)</td></tr>
+<tr valign=top><td>F8</td><td>LDI</td><td>Load immediate</td><td>M(R(P))->D; R(P)+1->R(P)</td></tr>
+<tr valign=top><td>5N</td><td>STR</td><td>Store via N</td><td>D->M(R(N))</td></tr>
+<tr valign=top><td>73</td><td>STXD</td><td>Store Via X and dec.</td><td>D->M(R(X)); R(X)-1->R(X)</td></tr>
+<tr valign=top><td>1N</td><td>INC</td><td>Increment reg N</td><td>R(N)+1->R(N)</td></tr>
+<tr valign=top><td>2N</td><td>DEC</td><td>Decrement reg N</td><td>R(N)-1->R(N)</td></tr>
+<tr valign=top><td>60</td><td>IRX</td><td>Increment reg X</td><td>R(X)+1->R(X)</td></tr>
+<tr valign=top><td>8N</td><td>GLO</td><td>Get low reg N</td><td>R(N).0->D</td></tr>
+<tr valign=top><td>AN</td><td>PLO</td><td>Put low reg N</td><td>D->R(N).0</td></tr>
+<tr valign=top><td>9N</td><td>GHI</td><td>Get high reg N</td><td>R(N).1->D</td></tr>
+<tr valign=top><td>BN</td><td>PHI</td><td>Put high reg N</td><td>D->R(N).1</td></tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>F1</td><td>OR</td><td>Or</td><td>M(R(X)) or D->D</td></tr>
+<tr valign=top><td>F9</td><td>ORI</td><td>Or immediate</td><td>M(R(P)) or D->D; R(P)+1->R(P)</td></tr>
+<tr valign=top><td>F3</td><td>XOR</td><td>Exclusive or</td><td>M(R(X)) xor D->D</td></tr>
+<tr valign=top><td>FB</td><td>XRI</td><td>Exclusive or immediate</td><td>M(R(P)) xor D->D; R(P)+1->R(P)</td></tr>
+<tr valign=top><td>F2</td><td>AND</td><td>And</td><td>M(R(X)) and D->D</td></tr>
+<tr valign=top><td>FA</td><td>ANI</td><td>And immediate</td><td>M(R(P)) and D->D; R(P)+1->R(P)</td></tr>
+<tr valign=top><td>F6</td><td>SHR</td><td>Shift right</td><td>Shift D right; lsb(D)->DF;<br> 0->msb(D)</td></tr>
+<tr valign=top><td>76</td><td>SHRC</td><td>Shift right with carry</td><td>Shift D right; lsb(D)->DF;<br> DF->msb(D)</td></tr>
+<tr valign=top><td>FE</td><td>SHL</td><td>Shift left</td><td>Shift D left; msb(D)->DF;<br> 0->lsb(D)</td></tr>
+<tr valign=top><td>7E</td><td>SHLC</td><td>Shift left with carry</td><td>Shift D left; msb(D)->DF;<br> DF->lsb(D)</td></tr>
+<tr valign=top><td>F4</td><td>ADD</td><td>Add</td><td>M(R(X))+D->DF,D</td></tr>
+<tr valign=top><td>FC</td><td>ADI</td><td>Add immediate</td><td>M(R(P))+D->DF,D; R(P)+1->R(P)</td></tr>
+<tr valign=top><td>74</td><td>ADC</td><td>Add with carry</td><td>M(R(X))+D+DF->DF,D</td></tr>
+<tr valign=top><td>7C</td><td>ADCI</td><td>Add with carry imm.</td><td>M(R(P))+D+DF->DF,D; R(P)+1->R(P)</td></tr>
+<tr valign=top><td>F5</td><td>SD</td><td>Subtract D</td><td>M(R(X))-D->DF,D</td></tr>
+<tr valign=top><td>FD</td><td>SDI</td><td>Subtract D immediate</td><td>M(R(P))-D->DF,D; R(P)+1->R(P)</td></tr>
+<tr valign=top><td>75</td><td>SDB</td><td>Sub. D with borrow</td><td>M(R(X))-D-DF->DF,D</td></tr>
+<tr valign=top><td>7D</td><td>SDBI</td><td>Sub. D with borrow imm.</td><td>M(R(P))-D-DF->DF,D; R(P)+1->R(P)</td></tr>
+<tr valign=top><td>F7</td><td>SM</td><td>Subtract memory</td><td>D-M(R(X))->DF,D</td></tr>
+<tr valign=top><td>FF</td><td>SMI</td><td>Subtract Mem. imm.</td><td>D-M(R(P))->DF,D; R(P)+1->R(P)</td></tr>
+<tr valign=top><td>77</td><td>SMB</td><td>Sub. Mem. with borrow</td><td>D-M(R(X))-DF->DF,D;</td></tr>
+<tr valign=top><td>7F</td><td>SMBI</td><td>Sub. Mem. w/borrow imm.</td><td>D-M(R(P))-DF->DF,D; R(P)+1>R(P)</td></tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>30</td><td>BR</td><td>Branch</td><td>M(R(P))->R(P).0</td></tr>
+<tr valign=top><td>38</td><td>NBR</td><td>No Branch</td><td>R(P)+1->R(P)</td></tr>
+<tr valign=top><td>32</td><td>BZ</td><td>Branch if D=0</td><td>If D=0, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>3A</td><td>BNZ</td><td>Branch if D<>0</td><td>If D<>0, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>33</td><td>BDF</td><td>Branch if DF=1</td><td>if DF=1, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>3B</td><td>BNF</td><td>Branch if DF=0</td><td>if DF=0, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>31</td><td>BQ</td><td>Branch if Q=1</td><td>if Q=1, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>39</td><td>BNQ</td><td>Branch if Q=0</td><td>if Q=0, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>34</td><td>B1</td><td>Branch if EF1=1</td><td>if EF1=1, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>3C</td><td>BN1</td><td>Branch if EF1=0</td><td>if EF1=0, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>35</td><td>B2</td><td>Branch if EF2=1</td><td>if EF2=1, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>3D</td><td>BN2</td><td>Branch if EF2=0</td><td>if EF2=0, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>36</td><td>B3</td><td>Branch if EF3=1</td><td>if EF3=1, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>3E</td><td>BN3</td><td>Branch if EF3=0</td><td>if EF3=0, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>37</td><td>B4</td><td>Branch if EF4=1</td><td>if EF4=1, M(R(P))->R(P).0<br> else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>3F</td><td>BN4</td><td>Branch if EF4=0</td><td>if EF4=0, M(R(P))->R(P).0</td></tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>C0</td><td>LBR</td><td>Long Branch</td><td>M(R(P))->R(P).1;<br> M(R(P)+1)->R(P).0</td></tr>
+<tr valign=top><td>C8</td><td>NLBR</td><td>No long branch</td><td>R(P)+2->R(P)</td></tr>
+<tr valign=top><td>C2</td><td>LBZ</td><td>Branch if D=0</td><td>if D=0 then M(R(P))->R(P).1;<br> M(R(P)+1)->R(P).0<br> else R(P)+2->R(P)</td></tr>
+<tr valign=top><td>CA</td><td>LBNZ</td><td>Branch if D<>0</td><td>if D<>0 then M(R(P))->R(P).1;<br> M(R(P)+1)->R(P).0<br> else R(P)+2->R(P)</td></tr>
+<tr valign=top><td>C3</td><td>LBDF</td><td>Branch if DF=1</td><td>if DF=1 then M(R(P))->R(P).1;<br> M(R(P)+1)->R(P).0<br> else R(P)+2->R(P)</td></tr>
+<tr valign=top><td>CB</td><td>LBNF</td><td>Branch if DF=0</td><td>if DF=0 then M(R(P))->R(P).1;<br> M(R(P)+1)->R(P).0<br> else R(P)+2->R(P)</td></tr>
+<tr valign=top><td>C1</td><td>LBQ</td><td>Branch if Q=1</td><td>if Q=1 then M(R(P))->R(P).1;<br> M(R(P)+1)->R(P).0<br> else R(P)+2->R(P)</td></tr>
+<tr valign=top><td>C9</td><td>LBNQ</td><td>Branch if Q=0</td><td>if Q=0 then M(R(P))->R(P).1;<br> M(R(P)+1)->R(P).0<br> else R(P)+2->R(P)</td></tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>CE</td><td>LSZ</td><td>Skip if D=0</td><td>if D=0, R(P)+2->R(P)<br> else Continue</td></tr>
+<tr valign=top><td>C6</td><td>LSNZ</td><td>Skip if D<>0</td><td>if D<>0, R(P)+2->R(P)<br> else Continue</td></tr>
+<tr valign=top><td>CF</td><td>LSDF</td><td>Skip if DF=1</td><td>if DF=1, R(P)+2->R(P)<br> else Continue</td></tr>
+<tr valign=top><td>C7</td><td>LSNF</td><td>Skip if DF=0</td><td>if DF=0, R(P)+2->R(P)<br> else Continue</td></tr>
+<tr valign=top><td>CD</td><td>LSQ</td><td>Skip if Q=1</td><td>if Q=1, R(P)+2->R(P)<br> else Continue</td></tr>
+<tr valign=top><td>C5</td><td>LSNQ</td><td>Skip if Q=0</td><td>if Q=0, R(P)+2->R(P)<br> else Continue</td></tr>
+<tr valign=top><td>CC</td><td>LSIE</td><td>Skip if IE=1</td><td>if IE=0, R(P)+2->R(P)<br> else Continue</td></tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>00</td><td>IDL</td><td>Idle</td><td>Wait for DMA or Interrupt<br> M(R(0))->Bus</td></tr>
+<tr valign=top><td>C4</td><td>NOP</td><td>No operation</td><td>Continue</td></tr>
+<tr valign=top><td>DN</td><td>SEP</td><td>Set P</td><td>N->P</td></tr>
+<tr valign=top><td>EN</td><td>SEX</td><td>Set X</td><td>N->X</td></tr>
+<tr valign=top><td>7B</td><td>SEQ</td><td>Set Q</td><td>1->Q</td></tr>
+<tr valign=top><td>7A</td><td>REQ</td><td>Reset Q</td><td>0->Q</td></tr>
+<tr valign=top><td>78</td><td>SAV</td><td>Save</td><td>T->M(R(X))</td></tr>
+<tr valign=top><td>79</td><td>MARK</td><td>Push X,P to stack</td><td>(X,P)->T; (X,P)->M(R(2)) then<br> P->X; R(2)-1->R(2)</td></tr>
+<tr valign=top><td>70</td><td>RET</td><td>Return</td><td>M(R(X))->(X,P); R(X)+1->R(X); 1->IE</td></tr>
+<tr valign=top><td>71</td><td>DIS</td><td>Disable</td><td>M(R(X))->(X,P); R(X)+1->R(X); 0->IE</td></tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>61</td><td>OUT1</td><td>Output 1</td><td>M(R(X))->Bus; R(X)+1->R(X); Nlines=1</td></tr>
+<tr valign=top><td>62</td><td>OUT1</td><td>Output 2</td><td>M(R(X))->Bus; R(X)+1->R(X); Nlines=2</td></tr>
+<tr valign=top><td>63</td><td>OUT1</td><td>Output 3</td><td>M(R(X))->Bus; R(X)+1->R(X); Nlines=3</td></tr>
+<tr valign=top><td>64</td><td>OUT1</td><td>Output 4</td><td>M(R(X))->Bus; R(X)+1->R(X); Nlines=4</td></tr>
+<tr valign=top><td>65</td><td>OUT1</td><td>Output 5</td><td>M(R(X))->Bus; R(X)+1->R(X); Nlines=5</td></tr>
+<tr valign=top><td>66</td><td>OUT1</td><td>Output 6</td><td>M(R(X))->Bus; R(X)+1->R(X); Nlines=6</td></tr>
+<tr valign=top><td>67</td><td>OUT1</td><td>Output 7</td><td>M(R(X))->Bus; R(X)+1->R(X); Nlines=7</td></tr>
+<tr valign=top><td>69</td><td>INP1</td><td>Input 1</td><td>Bus->M(R(X)); Bus->D; Nlines=1</td></tr>
+<tr valign=top><td>6A</td><td>INP1</td><td>Input 2</td><td>Bus->M(R(X)); Bus->D; Nlines=2</td></tr>
+<tr valign=top><td>6B</td><td>INP1</td><td>Input 3</td><td>Bus->M(R(X)); Bus->D; Nlines=3</td></tr>
+<tr valign=top><td>6C</td><td>INP1</td><td>Input 4</td><td>Bus->M(R(X)); Bus->D; Nlines=4</td></tr>
+<tr valign=top><td>6D</td><td>INP1</td><td>Input 5</td><td>Bus->M(R(X)); Bus->D; Nlines=5</td></tr>
+<tr valign=top><td>6E</td><td>INP1</td><td>Input 6</td><td>Bus->M(R(X)); Bus->D; Nlines=6</td></tr>
+<tr valign=top><td>6F</td><td>INP1</td><td>Input 7</td><td>Bus->M(R(X)); Bus->D; Nlines=7</td></tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+</table>
+
+<b>Reverse Opcode Table: 1802</b><br>
+<font size=2>
+<table border=1>
+  <tr>
+    <th></th>
+    <th>0</th>
+    <th>1</th>
+    <th>2</th>
+    <th>3</th>
+    <th>4</th>
+    <th>5</th>
+    <th>6</th>
+    <th>7</th>
+    <th>8</th>
+    <th>9</th>
+    <th>A</th>
+    <th>B</th>
+    <th>C</th>
+    <th>D</th>
+    <th>E</th>
+    <th>F</th>
+  </tr>
+  <tr>
+    <th>0</th>
+    <td>IDL</td>
+    <td>LDN 1</td>
+    <td>LDN 2</td>
+    <td>LDN 3</td>
+    <td>LDN 4</td>
+    <td>LDN 5</td>
+    <td>LDN 6</td>
+    <td>LDN 7</td>
+    <td>LDN 8</td>
+    <td>LDN 9</td>
+    <td>LDN A</td>
+    <td>LDN B</td>
+    <td>LDN C</td>
+    <td>LDN D</td>
+    <td>LDN E</td>
+    <td>LDN F</td>
+  </tr>
+  <tr valign=top>
+    <th>1</th>
+    <td>INC 0</td>
+    <td>INC 1</td>
+    <td>INC 2</td>
+    <td>INC 3</td>
+    <td>INC 4</td>
+    <td>INC 5</td>
+    <td>INC 6</td>
+    <td>INC 7</td>
+    <td>INC 8</td>
+    <td>INC 9</td>
+    <td>INC A</td>
+    <td>INC B</td>
+    <td>INC C</td>
+    <td>INC D</td>
+    <td>INC E</td>
+    <td>INC F</td>
+  </tr>
+  <tr valign=top>
+    <th>2</th>
+    <td>DEC 0</td>
+    <td>DEC 1</td>
+    <td>DEC 2</td>
+    <td>DEC 3</td>
+    <td>DEC 4</td>
+    <td>DEC 5</td>
+    <td>DEC 6</td>
+    <td>DEC 7</td>
+    <td>DEC 8</td>
+    <td>DEC 9</td>
+    <td>DEC A</td>
+    <td>DEC B</td>
+    <td>DEC C</td>
+    <td>DEC D</td>
+    <td>DEC E</td>
+    <td>DEC F</td>
+  </tr>
+  <tr valign=top>
+    <th>3</th>
+    <td>BR</td>
+    <td>BQ</td>
+    <td>BZ</td>
+    <td>BDF</td>
+    <td>B1</td>
+    <td>B2</td>
+    <td>B3</td>
+    <td>B4</td>
+    <td>NBR</td>
+    <td>BNQ</td>
+    <td>BNZ</td>
+    <td>BNF</td>
+    <td>BN1</td>
+    <td>BN2</td>
+    <td>BN3</td>
+    <td>BN4</td>
+  </tr>
+  <tr valign=top>
+    <th>4</th>
+    <td>LDA 0</td>
+    <td>LDA 1</td>
+    <td>LDA 2</td>
+    <td>LDA 3</td>
+    <td>LDA 4</td>
+    <td>LDA 5</td>
+    <td>LDA 6</td>
+    <td>LDA 7</td>
+    <td>LDA 8</td>
+    <td>LDA 9</td>
+    <td>LDA A</td>
+    <td>LDA B</td>
+    <td>LDA C</td>
+    <td>LDA D</td>
+    <td>LDA E</td>
+    <td>LDA F</td>
+  </tr>
+  <tr valign=top>
+    <th>5</th>
+    <td>STR 0</td>
+    <td>STR 1</td>
+    <td>STR 2</td>
+    <td>STR 3</td>
+    <td>STR 4</td>
+    <td>STR 5</td>
+    <td>STR 6</td>
+    <td>STR 7</td>
+    <td>STR 8</td>
+    <td>STR 9</td>
+    <td>STR A</td>
+    <td>STR B</td>
+    <td>STR C</td>
+    <td>STR D</td>
+    <td>STR E</td>
+    <td>STR F</td>
+  </tr>
+  <tr valign=top>
+    <th>6</th>
+    <td>IRX</td>
+    <td>OUT 1</td>
+    <td>OUT 2</td>
+    <td>OUT 3</td>
+    <td>OUT 4</td>
+    <td>OUT 5</td>
+    <td>OUT 6</td>
+    <td>OUT 7</td>
+    <td>---</td>
+    <td>INP 1</td>
+    <td>INP 2</td>
+    <td>INP 3</td>
+    <td>INP 4</td>
+    <td>INP 5</td>
+    <td>INP 6</td>
+    <td>INP 7</td>
+  </tr>
+  <tr valign=top>
+    <th>7</th>
+    <td>RET</td>
+    <td>DIS</td>
+    <td>LDXA</td>
+    <td>STXD</td>
+    <td>ADC</td>
+    <td>SDB</td>
+    <td>SHRC</td>
+    <td>SMB</td>
+    <td>SAV</td>
+    <td>MARK</td>
+    <td>REQ</td>
+    <td>SEQ</td>
+    <td>ADCI</td>
+    <td>SDBI</td>
+    <td>SHLC</td>
+    <td>SMBI</td>
+  </tr>
+  <tr valign=top>
+    <th>8</th>
+    <td>GLO 0</td>
+    <td>GLO 1</td>
+    <td>GLO 2</td>
+    <td>GLO 3</td>
+    <td>GLO 4</td>
+    <td>GLO 5</td>
+    <td>GLO 6</td>
+    <td>GLO 7</td>
+    <td>GLO 8</td>
+    <td>GLO 9</td>
+    <td>GLO A</td>
+    <td>GLO B</td>
+    <td>GLO C</td>
+    <td>GLO D</td>
+    <td>GLO E</td>
+    <td>GLO F</td>
+  </tr>
+  <tr valign=top>
+    <th>9</th>
+    <td>GHI 0</td>
+    <td>GHI 1</td>
+    <td>GHI 2</td>
+    <td>GHI 3</td>
+    <td>GHI 4</td>
+    <td>GHI 5</td>
+    <td>GHI 6</td>
+    <td>GHI 7</td>
+    <td>GHI 8</td>
+    <td>GHI 9</td>
+    <td>GHI A</td>
+    <td>GHI B</td>
+    <td>GHI C</td>
+    <td>GHI D</td>
+    <td>GHI E</td>
+    <td>GHI F</td>
+  </tr>
+  <tr valign=top>
+    <th>A</th>
+    <td>PLO 0</td>
+    <td>PLO 1</td>
+    <td>PLO 2</td>
+    <td>PLO 3</td>
+    <td>PLO 4</td>
+    <td>PLO 5</td>
+    <td>PLO 6</td>
+    <td>PLO 7</td>
+    <td>PLO 8</td>
+    <td>PLO 9</td>
+    <td>PLO A</td>
+    <td>PLO B</td>
+    <td>PLO C</td>
+    <td>PLO D</td>
+    <td>PLO E</td>
+    <td>PLO F</td>
+  </tr>
+  <tr valign=top>
+    <th>B</th>
+    <td>PHI 0</td>
+    <td>PHI 1</td>
+    <td>PHI 2</td>
+    <td>PHI 3</td>
+    <td>PHI 4</td>
+    <td>PHI 5</td>
+    <td>PHI 6</td>
+    <td>PHI 7</td>
+    <td>PHI 8</td>
+    <td>PHI 9</td>
+    <td>PHI A</td>
+    <td>PHI B</td>
+    <td>PHI C</td>
+    <td>PHI D</td>
+    <td>PHI E</td>
+    <td>PHI F</td>
+  </tr>
+  <tr valign=top>
+    <th>C</th>
+    <td>LBR</td>
+    <td>LBQ</td>
+    <td>LBZ</td>
+    <td>LBDF</td>
+    <td>NOP</td>
+    <td>LSNQ</td>
+    <td>LSNZ</td>
+    <td>LSNF</td>
+    <td>NLBR</td>
+    <td>LBNQ</td>
+    <td>LBNZ</td>
+    <td>LBNF</td>
+    <td>LSIE</td>
+    <td>LSQ</td>
+    <td>LSZ</td>
+    <td>LSDF</td>
+  </tr>
+  <tr valign=top>
+    <th>D</th>
+    <td>SEP 0</td>
+    <td>SEP 1</td>
+    <td>SEP 2</td>
+    <td>SEP 3</td>
+    <td>SEP 4</td>
+    <td>SEP 5</td>
+    <td>SEP 6</td>
+    <td>SEP 7</td>
+    <td>SEP 8</td>
+    <td>SEP 9</td>
+    <td>SEP A</td>
+    <td>SEP B</td>
+    <td>SEP C</td>
+    <td>SEP D</td>
+    <td>SEP E</td>
+    <td>SEP F</td>
+  </tr>
+  <tr valign=top>
+    <th>E</th>
+    <td>SEX 0</td>
+    <td>SEX 1</td>
+    <td>SEX 2</td>
+    <td>SEX 3</td>
+    <td>SEX 4</td>
+    <td>SEX 5</td>
+    <td>SEX 6</td>
+    <td>SEX 7</td>
+    <td>SEX 8</td>
+    <td>SEX 9</td>
+    <td>SEX A</td>
+    <td>SEX B</td>
+    <td>SEX C</td>
+    <td>SEX D</td>
+    <td>SEX E</td>
+    <td>SEX F</td>
+  </tr>
+  <tr valign=top>
+    <th>F</th>
+    <td>LDX</td>
+    <td>OR</td>
+    <td>AND</td>
+    <td>XOR</td>
+    <td>ADD</td>
+    <td>SD</td>
+    <td>SHR</td>
+    <td>SM</td>
+    <td>LDI</td>
+    <td>ORI</td>
+    <td>ANI</td>
+    <td>XRI</td>
+    <td>ADI</td>
+    <td>SDI</td>
+    <td>SHL</td>
+    <td>SMI</td>
+  </tr>
+</table>
+</font>
+
+<p>
+
+<b>1805 Extended Instructions:</b><br>
+<table border=0>
+<tr>
+  <th align=left>Opcode</th>
+  <th align=left>Mnemonic</th>
+  <th align=left>Instruction</th>
+  <th align=left>Operation</th>
+</tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>68 CN</td><td>RLDI</td><td>Register load immed.</td>
+  <td>M(R(P))->R(N).1; M(R(P)+1)->R(N).0; R(P)+2->R(P)</td></tr>
+<tr valign=top><td>68 6N</td><td>RLXA</td><td>Register load via X, Adv.</td>
+  <td>M(R(X))->R(N).1; M(R(X)+1)->R(N).0; R(X)+2->R(X)</td></tr>
+<tr valign=top><td>68 AN</td><td>RSXD</td><td>Register store via X, Dec.</td>
+  <td>R(N).0->M(R(X)); R(N).1->M(R(X)-1); R(X)-2->R(X)</td></tr>
+<tr valign=top><td>68 2N</td><td>DBNZ</td><td>Dec reg N, LBR if not 0</td>
+  <td>R(N)-1->R(N); if R(N) not 0,M(R(P))->R(P).1;M(R(P)+1)->R(P).0</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>else R(P)+2->R(P)</td></tr>
+<tr valign=top><td>68 BN</td><td>RNX</td><td>Register N to X copy</td>
+  <td>R(N)->R(X)</td></tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>68 F4</td><td>DADD</td><td>Decimal Add</td>
+  <td>M(R(X))+D->DF,D, decimal adjust</td></tr>
+<tr valign=top><td>68 FC</td><td>DADI</td><td>Decimal Add Immed.</td>
+  <td>M(R(P))+D->DF,D, decimal adjust; R(P)+1->R(P)</td></tr>
+<tr valign=top><td>68 74</td><td>DADC</td><td>Decimal Add with carry</td>
+  <td>M(R(X))+D+DF->DF,D, decimal adjust</td></tr>
+<tr valign=top><td>68 7C</td><td>DACI</td><td>Decimal Add Immed. with carry</td>
+  <td>M(R(P))+D+DF->DF,D, decimal adjust; R(P)+1->R(P)</td></tr>
+<tr valign=top><td>68 F7</td><td>DSM</td><td>Decimal sub memory</td>
+  <td>D-M(R(X))->DF,D, decimal adjust</td></tr>
+<tr valign=top><td>68 FF</td><td>DSMI</td><td>Decimal sub Immed</td>
+  <td>D-M(R(P))->DF,D, decimal adjust; R(P)+1->R(P)</td></tr>
+<tr valign=top><td>68 77</td><td>DSMB</td><td>Decimal sub memory w/borrow</td>
+  <td>D-M(R(X))-(not DF)->DF,D, decimal adjust</td></tr>
+<tr valign=top><td>68 7F</td><td>DSBI</td><td>Decimal sub Immed w/borrow</td>
+  <td>D-M(R(P))-(not DF)->DF,D, decimal adjust; R(P)+1->R(P)</td></tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>68 3E</td><td>BCI</td><td>Short branch on counter int</td>
+  <td>if CI=1,M(R(P))->R(P).0; 0->CI</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>else R(P)+1->R(P)</td></tr>
+<tr valign=top><td>68 3F</td><td>BXI</td><td>Short branch on external int</td>
+  <td>if XI=1,M(R(P))->R(P).0; 0->XI</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>else R(P)+1->R(P)</td></tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>68 06</td><td>LDC</td><td>Load counter</td>
+  <td>Cntr stopped:D->CH,CNTR;0->CI</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>Cntr running:D->CH</td></tr>
+<tr valign=top><td>68 08</td><td>GEC</td><td>Get counter</td>
+  <td>Cntr->D</td></tr>
+<tr valign=top><td>68 00</td><td>STPC</td><td>Stop counter</td>
+  <td>Stop Cntr; 0->/32 prescaler</td></tr>
+<tr valign=top><td>68 01</td><td>DTC</td><td>Decrement counter</td>
+  <td>Cntr-1->Cntr</td></tr>
+<tr valign=top><td>68 07</td><td>STM</td><td>Set timer mode and start</td>
+  <td>TPA/32->Cntr</td></tr>
+<tr valign=top><td>68 05</td><td>SCM1</td><td>Set counter mode 1 and start</td>
+  <td>/EF1->Cntr clock</td></tr>
+<tr valign=top><td>68 03</td><td>SCM2</td><td>Set counter mode 2 and start</td>
+  <td>/EF2->Cntr clock</td></tr>
+<tr valign=top><td>68 04</td><td>SPM1</td><td>Set pulse width mode 1 and start</td>
+  <td>TPA.EF1>Cntr clock, /EF1 / stops count</td></tr>
+<tr valign=top><td>68 02</td><td>SPM2</td><td>Set pulse width mode 2 and start</td>
+  <td>TPA.EF2>Cntr clock, /EF2 / stops count</td></tr>
+<tr valign=top><td>68 09</td><td>ETQ</td><td>Enable toggle Q</td>
+  <td>if Cntr=1; next Cntr clock / /Q->Q</td></tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>68 0A</td><td>XIE</td><td>External int enable</td>
+  <td>1->XIE</td></tr>
+<tr valign=top><td>68 0B</td><td>XID</td><td>External int disable</td>
+  <td>0->XIE</td></tr>
+<tr valign=top><td>68 0C</td><td>CIE</td><td>Counter int enable</td>
+  <td>1->CIE</td></tr>
+<tr valign=top><td>68 0D</td><td>CID</td><td>Counter int disable</td>
+  <td>0->CIE</td></tr>
+<tr valign=top><td>68 76</td><td>DSAV</td><td>Save T,D,DF</td>
+  <td>R(X)-1->R(X); T->M(R(X))</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>R(X)-1->R(X); D->M(R(X))</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>Shift D right with carry</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>R(X)-1->R(X); D->M(R(X))</td></tr>
+<tr valign=top><td colspan=4><hr></td></tr>
+<tr valign=top><td>68 8N</td><td>SCAL</td><td>Standard call</td>
+  <td>R(N).0->M(R(X)); R(N).1->M(R(X)-1)</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>R(X)-2->R(X); R(P)->R(N)</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>M(R(N))->R(P).1</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>M(R(N)+1)->R(P).0</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>R(N)+2->R(N)</td></tr>
+<tr valign=top><td>68 9N</td><td>SRET</td><td>Standard return</td>
+  <td>R(N)->R(P)</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>M(R(X)+1)->R(N).1; M(R(X)+2)->R(N).0</td></tr>
+  <tr valign=top><td></td><td></td><td></td> <td>R(X)+2->R(X)</td></tr>
+
+<tr valign=top><td colspan=4><hr></td></tr>
+</table>
+
+<p>
+<b>Reverse Opcode Table: 1805 extended (68) instructions</b><br>
+<font size=2>
+<table border=1>
+  <tr>
+    <th></th>
+    <th>0</th>
+    <th>1</th>
+    <th>2</th>
+    <th>3</th>
+    <th>4</th>
+    <th>5</th>
+    <th>6</th>
+    <th>7</th>
+    <th>8</th>
+    <th>9</th>
+    <th>A</th>
+    <th>B</th>
+    <th>C</th>
+    <th>D</th>
+    <th>E</th>
+    <th>F</th>
+  </tr>
+  <tr>
+    <th>0</th>
+    <td>STPC</td>
+    <td>DTC</td>
+    <td>SPM2</td>
+    <td>SCM2</td>
+    <td>SPM1</td>
+    <td>SCM1</td>
+    <td>LDC</td>
+    <td>STM</td>
+    <td>GEC</td>
+    <td>ETQ</td>
+    <td>XIE</td>
+    <td>XID</td>
+    <td>CIE</td>
+    <td>CID</td>
+    <td>---</td>
+    <td>---</td>
+  </tr>
+  <tr valign=top>
+    <th>1</th>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+  </tr>
+  <tr valign=top>
+    <th>2</th>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+    <td>DBNZ</td>
+  </tr>
+  <tr valign=top>
+    <th>3</th>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>BCI</td>
+    <td>BXI</td>
+  </tr>
+  <tr valign=top>
+    <th>4</th>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+  </tr>
+  <tr valign=top>
+    <th>5</th>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+  </tr>
+  <tr valign=top>
+    <th>6</th>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+    <td>RLXA</td>
+  </tr>
+  <tr valign=top>
+    <th>7</th>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>DADC</td>
+    <td>---</td>
+    <td>DSAV</td>
+    <td>DSMB</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>DACI</td>
+    <td>---</td>
+    <td>---</td>
+    <td>DSBI</td>
+  </tr>
+  <tr valign=top>
+    <th>8</th>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+    <td>SCAL</td>
+  </tr>
+  <tr valign=top>
+    <th>9</th>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+    <td>SRET</td>
+  </tr>
+  <tr valign=top>
+    <th>A</th>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+    <td>RSXD</td>
+  </tr>
+  <tr valign=top>
+    <th>B</th>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+    <td>RNX</td>
+  </tr>
+  <tr valign=top>
+    <th>C</th>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+    <td>RLDI</td>
+  </tr>
+  <tr valign=top>
+    <th>D</th>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+  </tr>
+  <tr valign=top>
+    <th>E</th>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+  </tr>
+  <tr valign=top>
+    <th>F</th>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>DADD</td>
+    <td>---</td>
+    <td>---</td>
+    <td>DSM</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>---</td>
+    <td>DADI</td>
+    <td>---</td>
+    <td>---</td>
+    <td>DSMI</td>
+  </tr>
+</table>
+</font>
+
+</body>
+</html>
+

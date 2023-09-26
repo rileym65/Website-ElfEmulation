@@ -1,0 +1,51 @@
+<html>
+<head>
+  <title>Bios Video I/O Module</title>
+</head>
+
+<body bgcolor=white text=black>
+<center><h3>Bios Video I/O Module</h3></center>
+This module provides a uniform interface to allow seamless use of 1861, 6847,
+and serial terminal I/O.  Programs written using this interface can display
+on any of these 3 video systems.
+<p>Video selection is based upon an initialization routine that scans the 
+keyboard and serial line to determine which video mode to use.  If a character
+comes first over the serial line, then serial I/O will be used.  If a key
+is detected on a port 7 keyboard (Elf II) then 1861 mode is used, If a key
+is detected on port 5 (Super Elf) then the 6847 video mode is used.
+<p>Many thanks to Richard Peters for building this module!
+<p><b>Version History</b>
+<table border=0>
+  <tr>
+    <th>Date</th>
+    <th>Version</th>
+    <th>Notes</th
+  </tr>
+  <tr>
+    <td>04/26/2004</td>
+    <td><a href="biosio_0_1.rom">0.1</a></td>
+    <td>Initial version</td>
+  </tr>
+  <tr>
+    <td>08/5/2004</td>
+    <td><a href="biosio_0_5.rom">0.5</a></td>
+    <td>Version 5</td>
+  </tr>
+  <tr>
+    <td>12/9/2004</td>
+    <td><a href="biosio_0_7.zip">0.7</a></td>
+    <td>Version 7<br>
+        Support has been added for the TMS9118/TMS9918 VDPs<br>
+        INIT files have been added for use with the newer versions
+        of Elf/OS (0.2.5 and up)</td>
+  </tr>
+</table>
+<p>
+Documentation on BiosIO can be found in the .zip file.
+<p>
+BiosIO now contains Init programs for use with the latest version of 
+Elf/OS (0.2.5)
+<p>
+All users of BIOSIO are encouraged to upgrade,  All software that uses
+BIOSIO is being modified to work with the newer version.
+</body>

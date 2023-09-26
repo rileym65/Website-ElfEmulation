@@ -1,0 +1,24 @@
+<html>
+<head>
+  <title>8-Bit IDE/ATA Interface</title>
+</head>
+
+<body bgcolor=white text=black>
+<center><h3>8-Bit IDE/ATA Interface</h3></center>
+This circuit provides an 8-bit interface to IDE/ATA devices.  This circuit
+will only allow half of an IDE hard drive to be utilized, unless the device supports
+the 8-bit mode.  CF requires that 8-bit mode be supported. therefore CF cards used
+on this interface will utilize the full capabiliities of the card.
+<p>This circuit would be utilized by first writing the desired IDE port
+number to port 2, and then reading/writing the selected port from port 3.</p>
+<p>See the Port Extender schematic to see how Port2, Port3, Inp, and Out are
+derived</p>
+<p>When using this interface for CF cards I recommend you replace the LS components
+with HC components.  Decoupling capacitors may also be needed.
+<p><a href="ide8software.txt">Click here</a> to see the software for driving this
+interface.
+<img src="ide-8.gif">
+
+</body>
+</html>
+

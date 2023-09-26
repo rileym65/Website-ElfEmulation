@@ -1,0 +1,51 @@
+Statements:
+PRINT expr[, ;]expr[, ;]...
+GOTO linenum
+GOSUB linenum
+RETURN
+END
+LET var=expr
+var=expr
+INPUT ["prompt",]var[,var[,var...]]
+REM remark
+IF expr [= <> < > <= >=] expr [THEN] statement
+POKE addr,value
+DPOKE addr,value
+USR(addr [,value [,value]])
+OUT port,value
+PLOT x,y
+CLS
+
+Functions (useable in expressions)
+PEEK(addr)
+DPEEK(addr)
+USR(addr [,value [,value]])
+FRE()
+INP(port)
+FLG(flag)
+RND(range)
+
+
+Variables:
+A through Z 16-bit signed integer variables
+
+
+Notes:
+A space is required after line numbers
+
+No check is done to see if line numbers are in order, lines will be compiled
+in the order they exist in the source file
+
+Multiple statements may be placed on a line, separated with a colon (:)
+
+Both GOTO and GOSUB support computed jumps, so you could do GOTO A*1000 and 
+if A containd 5, for example, an attempt would be made to jump to line 5000.
+If the jump target does not exist then an error will be printed and the program
+will terminate.
+
+
+TBC [options] filename
+
+-L   - show program listing
+-H   - halt on errors
+

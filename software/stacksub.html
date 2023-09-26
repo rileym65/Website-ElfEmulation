@@ -1,0 +1,152 @@
+<html>
+<head>
+  <title>Implementing stack-based call and return</title>
+</head>
+<body bgcolor=white text=black>
+<center><h3>Implementing Stack-based Call and Return</h3></center>
+<p>Here are two routines that can be used to implement stack-based subroutines.
+One register will be needed to point to the call routine, and another to the
+ret routine.  Register RF is used by both routines for temporary storage.
+Both routines assume R[2] is pointing to a stack.
+<p>Due to the short branches in each routine, each routine must not cross
+page boundaries.
+
+<pre>
+    1 0000:             ; *****************************************************
+    2 0000:             ; *** Function to implement a stack based call      ***
+    3 0000:             ; ***    R5 is assumed to be the main PC            ***
+    4 0000:             ; ***    R2 is assumed to be the stack pointer      ***
+    5 0000:             ; ***    RF is consumed                             ***
+    6 0000:             ; ***    usage is:    sep R4                        ***
+    7 0000:             ; ***                 dw  call_addr                 ***
+    8 0000:             ; *** Routine saves R5 values onto the stack        ***
+    9 0000:             ; *** and and sets it to the call address           ***
+   10 0000:             ; *****************************************************
+   11 0000: d5                   sep     r5       ; jump to called routine
+   12 0001: bf          call:    phi     rf       ; save D
+   13 0002: e2                   sex     r2       ; set x to stack segment
+   14 0003: 45                   lda     r5       ; get high byte
+   15 0004: af                   plo     rf       ; save it
+   16 0005: 15                   inc     r5       ; move past low address
+   17 0006: 85                   glo     r5       ; get low of return address
+   18 0007: 73                   stxd             ; store onto stack
+   19 0008: 95                   ghi     r5       ; get high of return address
+   20 0009: 73                   stxd             ; and place onto stack
+   21 000a: 25                   dec     r5       ; point to low byte
+   22 000b: 05                   ldn     r5       ; get low byte
+   23 000c: a5                   plo     r5       ; place into low byte of PC
+   24 000d: 8f                   glo     rf       ; recover high byte
+   25 000e: b5                   phi     r5       ; put into high of PC
+   26 000f: 9f                   ghi     rf       ; recover D
+   27 0010: 30 00                br      call-1   ; transfer control
+   28 0012:             
+   29 0012: d5                   sep     r5       ; transfer control back
+   30 0013: bf          ret:     phi     rf       ; save return value
+   31 0014: 12                   inc     r2       ; high byte of return address
+   32 0015: 42                   lda     r2       ; get high byte
+   33 0016: b5                   phi     r5       ; put into register 5
+   34 0017: 02                   ldn     r2       ; get low byte
+   35 0018: a5                   plo     r5       ; put into low
+   36 0019: 9f                   ghi     rf       ; recall return value
+   37 001a: 30 12                br      ret-1    ; and return to caller
+</pre>
+<h4>The Call function:</h4>
+<table border=0>
+  <tr valign=top>
+    <th align=left>Lines</th>
+    <th align=left>Description</th>
+  </tr>
+  <tr valign=top>
+    <td>11</td>
+    <td>This transfers control back to R5, leaving the Call Register again
+        pointing to the beginning of the call routine</td>
+  </tr>
+  <tr valign=top>
+    <td>12</td>
+    <td>This saves the value in D so that it can be used as a passed parameter
+        to subroutines</td>
+  </tr>
+  <tr valign=top>
+    <td>13</td>
+    <td>X is set so that we can use the STXD commands to save the return address
+        on the stack</td>
+  </tr>
+  <tr valign=top>
+    <td>14-16</td>
+    <td>This block moves the original PC (R5) past the call address, we pick
+        up the high byte of the call address and store it in RF.0 on our way
+        past<td>
+  </tr>
+  <tr valign=top>
+    <td>17-20</td>
+    <td>This block takes the new position of R5 and stores it on the stack</td>
+  </tr>
+  <tr valign=top>
+    <td>21-23</td>
+    <td>This block of code moves back to the low byte of the call address,
+        retreives it and places it into R5.0</td>
+  </tr>
+  <tr valign=top>
+    <td>24-25</td>
+    <td>Now we retrieve the strored high address value and place it into R5.1.
+        R5 is now pointing at the subroutine to be called
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>26-27</td>
+    <td>Retreive the stored value of D and jump to line 11 in order to transfer
+        control to the called subroutine</td>
+    </td>
+  </tr>
+</table>
+
+<h4>The Ret function:</h4>
+<table border=0>
+  <tr valign=top>
+    <th align=left>Lines</th>
+    <th align=left>Description</th>
+  </tr>
+  <tr valign=top>
+    <td>29</td>
+    <td>This transfers control back to R5, leaving the Ret Register again
+        pointing to the beginning of the ret routine</td>
+  </tr>
+  <tr valign=top>
+    <td>30</td>
+    <td>Save the value of D so that it can be used as a return value</td>
+  </tr>
+  <tr valign=top>
+    <td>31-35</td>
+    <td>Retreive the return address from the stack and place into R5<td>
+  </tr>
+  <tr valign=top>
+    <td>36</td>
+    <td>Recover D</td>
+  </tr>
+  <tr valign=top>
+    <td>37</td>
+    <td>Jump to line 29 in order to transfer control back to the original</td>
+  </tr>
+</table>
+
+<h4>Sample Code:</h4>
+This sample assumes that R4 has been previously set to point to the Call
+routine, R7 has been set to point to the Ret routine, and R2 is pointing at
+suitable memory for a stack.
+<p>
+<pre>
+       ldi   0beh      ; byte to display
+       sep   r4        ; transfer control to call routine
+       dw    disp      ; address of subroutine to call
+
+       ...
+
+disp:  str   r2        ; write value in D to the stack
+       sex   r2        ; point the X register at stored value
+       out   4         ; write value to the hex displays
+       dec   r2        ; put stack pointer back where it was
+       sep   r7        ; transfer control to the ret routine
+</pre>
+</body>
+</html>
+

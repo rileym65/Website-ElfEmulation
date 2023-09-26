@@ -1,0 +1,75 @@
+ There are 2 methods that you can use to get XMODEM support onto your Elf/OS
+system.  The easiest, if you have the ability to make your own ROMs, is to get
+the XR/XS install ROM image from my site, burn that onto a ROM and replace the
+ROM on your PEV2 with the XR/XS ROM.  The XR/XS ROM already contains the PEV2
+BIOS as well as the initial jump set to FF00, so it will boot straight to
+Elf/OS instead of MINIMON.  Boot your system with this ROM installed and then
+do:
+
+     CD /BIN
+     INSTALL
+
+  And then select Y for both XR and XS and when it is complete you will have
+both the XMODEM sender and receiver programs in your BIN directory ready for
+use.
+
+  If you do not have the ability to burn your own ROMs, Elf/OS does contain
+tools that would still allow you to get XR onto your system, just needs a bit
+of copy/paste.  Here is a terminal session of how to get XR onto your system
+
+$ MINIMON
+
+>!2000 30 1B 0B 02 07 E4 00 00 00 00 70 00 00 00 00 00
+>!2010 00 00 00 00 00 00 00 00 00 00 00 9A BF 8A AF 4A
+>!2020 FF 21 33 1F 2A F8 00 5A F8 20 BD F8 06 AD F8 03
+>!2030 A7 D4 03 06 3B 4F F8 20 BF F8 42 AF D4 03 33 C0
+>!2040 03 03 66 69 6C 65 20 65 72 72 6F 72 0A 0D 00 D4
+>!2050 20 79 F8 24 BF F8 D3 AF F8 80 AC F8 00 BC D4 20
+>!2060 B3 C3 20 70 F8 24 BF F8 D3 AF D4 03 0C C0 20 52
+>!2070 D4 03 12 D4 21 AB C0 03 03 8F 73 9F 73 F8 D3 AF
+>!2080 F8 22 BF 9E 5F FA FE BE 1F F8 15 5F 1F F8 01 5F
+>!2090 1F F8 80 5F 1F F8 00 5F F8 00 AF BF F8 10 AE 2F
+>!20A0 8F CA 20 9F 9F CA 20 9F 2E 8E CA 20 9F 60 72 BF
+>!20B0 F0 AF D5 8A 73 9A 73 89 73 99 73 88 73 98 73 F8
+>!20C0 00 A8 F8 00 B8 F8 D6 AA F8 22 BA 0A A9 52 F8 DB
+>!20D0 F4 AA F8 22 7C 00 BA 89 FA 80 C2 20 EC D4 21 31
+>!20E0 C3 21 19 F8 DB AA F8 22 BA F8 00 A9 4A 5F 1F 19
+>!20F0 18 2C 8C CA 20 D7 9C CA 20 D7 F8 D6 AA F8 22 BA
+>!2100 89 5A 88 AC 98 BC 60 72 B8 F0 A8 60 72 B9 F0 A9
+>!2110 60 72 BA F0 AA F8 00 F6 D5 88 AC 98 BC 60 72 B8
+>!2120 F0 A8 60 72 B9 F0 A9 60 72 BA F0 AA F8 01 C0 21
+>!2130 17 8F 73 9F 73 8C 73 9C 73 D4 22 00 C3 21 99 F8
+>!2140 D9 AF F8 22 BF 0F 52 F8 D5 AF F8 22 BF 0F F7 CA
+>!2150 21 8D F8 D8 AF F8 22 BF F8 00 BC F8 83 AC 4F 52
+>!2160 9C F4 BC 2C 8C CA 21 5E 0F 52 9C F7 CA 21 8D F8
+>!2170 D4 AF F8 22 BF F8 06 5F 1F 0F FC 01 5F 1F F8 00
+>!2180 5F F6 60 72 BC F0 AC 60 72 BF F0 AF D5 F8 D4 AF
+>!2190 F8 22 BF F8 15 5F C0 21 39 F8 06 D4 22 9C F8 D7
+>!21A0 AF F8 22 BF F8 01 5F F6 C0 21 82 F8 D3 AF F8 22
+>!21B0 BF 0F BE D4 FF 66 0A 0D 58 4D 4F 44 45 4D 20 72
+>!21C0 65 63 65 69 76 65 20 63 6F 6D 70 6C 65 74 65 0A
+>!21D0 0D 0A 0D 00 D5
+>!2200 8C 73 9C 73 8A 73 9A 73 8D 73 9D 73 89 73 99 73
+>!2210 F8 84 AA F8 01 BA F8 D4 AF F8 22 BF 0F B9 F8 D8
+>!2220 AF F8 22 BF F8 92 AD F8 22 BD F8 09 A9 F8 00 F6
+>!2230 33 35 7A 30 38 7B 30 38 DD E2 E2 99 76 B9 29 89
+>!2240 3A 30 7B F8 08 AC 9E BC F6 F6 BE 3D 4B DD 9C BE
+>!2250 DD 30 55 30 5B 9C F6 35 53 F9 80 BC DD 2C C4 C4
+>!2260 8C 3A 55 9C 5F 1F 9A F6 BA 3B 74 9C FF 04 3A 74
+>!2270 F8 01 30 7B 2A 8A CA 22 43 F8 00 F6 60 72 B9 F0
+>!2280 A9 60 72 BD F0 AD 60 72 BA F0 AA 60 72 BC F0 AC
+>!2290 D5 D3 9E F6 AE E2 2E 8E 32 91 30 96 AE 8F 73 9F
+>!22A0 73 8D 73 9D 73 8E BF F8 09 AF F8 92 AD F8 22 BD
+>!22B0 F8 00 F6 33 B8 7A 30 BB 7B 30 BB DD E2 E2 9F 76
+>!22C0 BF 2F 8F 3A B3 7B DD DD 60 72 BD F0 AD 60 72 BF
+>!22D0 F0 AF D5
+>/
+
+$ SAVE
+File dump utility
+Start address : 2000
+End address   : 22D3
+Exec address  : 2000
+Filename      : XR
+
+

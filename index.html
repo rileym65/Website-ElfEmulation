@@ -1,0 +1,422 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+  <title>Elf Emulation</title>
+</head>
+
+<body text="black" bgcolor="white">
+<table border="0">
+<tbody>
+<tr valign="top">
+<td><img src="1802.gif" alt="" align="left"></td>
+<td>
+<h1>Elf/1802</h1>
+<h1>Emulation</h1>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="0">
+<tbody>
+<tr>
+<td><a href="./emulator.html"><img src="emulator.gif" alt="" border="0"></a></td>
+<td><a href="./rcasm.html"><img src="rcasm.gif" alt="" border="0"></a></td>
+<td><a href="./1802.html"><img src="cpu1802.gif" alt="" border="0"></a></td>
+<td><a href="./elfos.html"><img src="elfos.gif" alt="" border="0"></a></td>
+<td><a href="./software.html"><img src="software.gif" alt="" border="0"></a></td>
+<td><a href="./hardware.html"><img src="hardware.gif" alt="" border="0"></a></td>
+<td><a href="./gallery.html"><img src="gallery.gif" alt="" border="0"></a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<b>Important Notice!</b><br>
+It has been a long run and I hope that Elf Emulation has contributed usefully to the
+1802 community, but with the increasing costs of web hosting I can no longer keep this
+site running.  I am not sure when this site comes up for renewal, but when it does I
+will not be renewing this site.  As such, if there is anything on this site you would
+like to have, please get it now.  All of my 1802-based source code has been moved to
+GitHub and can be found at: <a href="https://github.com/rileym65">https://github.com/rileym65</a>.  I thank you all for your 
+support over the many years that I ran this site.
+<br>
+Mike Riley
+<br>
+<hr>
+<h3>News</h3>
+<p><strong><a href="picoelf.html">Pico/Elf V2</a></strong></p>
+<table border="0">
+<tbody>
+<tr valign="top">
+  <td>8/27/2021</td>
+  <td>
+    Posted Elf/OS 4.1.0
+  </td>
+</tr>
+<tr valign="top">
+  <td>4/14/2021</td>
+  <td>
+    Posted Rc/Pilot+ distribution package on the software page<br>
+    Posted Rc/Mouse distribution package on the software page<br>
+    Posted Rc/VTL2 distribution package on the software page<br>
+    Posted Elf/OS HELP libraries for the above languages on the software page<br>
+    Updated TYPE to build 6<br>
+    Updated HELP to build 11
+  </td>
+</tr>
+<tr valign="top">
+  <td>3/11/2021</td>
+  <td>
+    Posted CHMOD.19 which now supports +x -x +w -w +h -h<br>
+    Posted DIR.8 which honors the hidden flag
+  </td>
+</tr>
+<tr valign="top">
+  <td>2/26/2021</td>
+  <td>
+    Posted new PEV2 runtime ROM on the software page<br>
+    Posted new floating point subroutines on software page<br>
+    Posted trig subroutines on software page<br>
+    Posted 32-bit integer subroutines on software page<br>
+    Posted scalable integer subroutines on software page<br>
+    Posted string subroutines on software page
+  </td>
+</tr>
+<tr valign="top">
+  <td>1/17/2021</td>
+  <td>
+    Posted version 0.3.2 of Elf/OS
+  </td>
+</tr>
+<tr valign="top">
+  <td>11/17/2020</td>
+  <td>
+    Added some updates to the Pico/Elf page<br>
+    Added documentation on the Elf/OS page for adding XMODEM support to Elf/OS
+  </td>
+</tr>
+<tr valign="top">
+  <td>11/2/2020</td>
+  <td>
+    Posted version 2.7 of the emulator, now supporting emulation of the Pico/Elf V2<br>
+    Updated Pico/Elf V2 ROM for XR/XS<br>
+    Posted some binaries suitable for sending to an Elf/OS system using XR
+  </td>
+</tr>
+<tr valign="top">
+  <td>10/26/2020</td>
+  <td>Posted several Pico/Elf V2 ROM images and documentation to the Software page
+  </td>
+</tr>
+<tr valign="top">
+  <td>9/28/2020</td>
+  <td>Posted Pico/Elf V2 bios on the Pico/Elf page
+  </td>
+</tr>
+<tr valign="top">
+  <td>9/22/2020</td>
+  <td>For those who got the Micro/Elf boards that I had ordered from JLCPCB, they missed the silkscreen layer
+      with the part names.  <a href="MicroElfPartNames.jpg">Here is a layout diagram</a> showing what parts go where.
+  </td>
+</tr>
+<tr valign="top">
+  <td>8/13/2020</td>
+  <td>
+    I have received a stock of Micro/Elf boards, these are available for $1.45 each plus shipping.  The Pico/Elf prototypes
+    are still being tested, I have run out of prom chips for making a bios so am awaiting an order of proms.
+  </td>
+</tr>
+
+<tr valign="top">
+  <td>8/4/2020</td>
+  <td>Since every now and then I get requests for Micro/Elf boards and having found a low price source for them, I
+      have decided to order a stack of 50 boards.  If interested in a Micro/Elf board contact me.  Projected price
+      on these boards is $1.45 per board plus shipping.
+  </td>
+</tr>
+<tr valign="top">
+<td>8/2/2020</td>
+<td>New page for Pico/Elf V2 announcements has been created</td></tr>
+<tr valign="top">
+  <td>7/31/2020</td>
+  <td>Been a very long time since I have done much with the 1802, but after having several requests lately
+      for Pico/Elf V2 boards, I have decided to dust off this project and see about getting some boards made.
+      I will try to get a Pico/Elf V2 page put together here in the next couple days to give some details about
+      this machine and to keep you updated on this project.
+  </td>
+</tr>
+<tr valign="top">
+<td>11/6/2017</td>
+<td>Posted version 1.0.6 of the BIOS</td>
+</tr>
+<tr valign="top">
+<td>11/6/2017</td>
+<td>Updated rcbasic source to fix gosub error.  I believe Mark Albene is
+ the originator of this fix?  Note: I only fixed the source code, 
+binaries for Rc/Basic are still wrong.  I will update those too when I 
+get the chance.
+</td></tr>
+<tr valign="top">
+<td>6/11/2008</td>
+<td>Posted fixed version of Elf/OS EDIT program</td>
+</tr>
+<tr valign="top">
+<td>8/21/2007</td>
+<td>Posted version 0.2.8 Build 192 of Elf/OS</td>
+</tr>
+<tr valign="top">
+<td>8/20/2007</td>
+<td>Posted initial version of LINK2</td>
+</tr>
+<tr valign="top">
+<td>7/09/2007</td>
+<td>Posted version 3.0 of Rc/Asm</td>
+</tr>
+<tr valign="top">
+<td>4/07/2007</td>
+<td>Posted version 2.6 of the emulator</td>
+</tr>
+<tr valign="top">
+<td>3/16/2007</td>
+<td>Posted version 0.2.8 build 186 of Elf/OS</td>
+</tr>
+<tr valign="top">
+<td>7/31/2006</td>
+<td>Posted version 0.2.8 of Elf/OS</td>
+</tr>
+<tr valign="top">
+<td>7/28/2006</td>
+<td>Posted "Inside Elf/OS" document on the Elf/OS page</td>
+</tr>
+<tr valign="top">
+<td>7/19/2006</td>
+<td>posted initial version of ASM2 linking assembler</td>
+</tr>
+<tr valign="top">
+<td>5/3/2006</td>
+<td>posted version 2.8 of Rc/Asm</td>
+</tr>
+<tr valign="top">
+<td>4/20/2006</td>
+<td>posted version 2.5 of the emulator</td>
+</tr>
+<tr valign="top">
+<td>3/28/2006</td>
+<td>posted Pico/Elf V2 design files on the hardware page</td>
+</tr>
+<tr valign="top">
+<td>3/22/2006</td>
+<td>posted version 2.4b of the emulator</td>
+</tr>
+<tr valign="top">
+<td>2/22/2006</td>
+<td>Updated ROM version of RC/Forth on Software page<br> Updated ROM version of Edt/Asm on Software page<br> Updated Rc/Basic source on Software page<br></td>
+</tr>
+<tr valign="top">
+<td>2/8/2006</td>
+<td>posted version 2.6 of Rc/ASM</td>
+</tr>
+<tr valign="top">
+<td>1/19/2006</td>
+<td>posted version 0.2 of the Elf/OS integrated shell</td>
+</tr>
+<tr valign="top">
+<td>1/5/2006</td>
+<td>Added shell utility to Elf/OS software downloads</td>
+</tr>
+<tr valign="top">
+<td>10/3/2005</td>
+<td>Added Floating point routines to software page<br> Added disktools.tgz to the Emulator page<br> Added some photos to the photo gallery</td>
+</tr>
+<tr valign="top">
+<td>6/28/2005</td>
+<td>Added 512k Memory expansion schematic to hardware page</td>
+</tr>
+<tr valign="top">
+<td>6/17/2005</td>
+<td>Added zrun3 to software page</td>
+</tr>
+<tr valign="top">
+<td>5/23/2005</td>
+<td>Added schematic for voice synthesizer to hardware page</td>
+</tr>
+<tr valign="top">
+<td>5/10/2005</td>
+<td>Updated Rc/Asm to version 2.5</td>
+</tr>
+<tr valign="top">
+<td>5/4/2005</td>
+<td>Added LBR to software page</td>
+</tr>
+<tr valign="top">
+<td>5/3/2005</td>
+<td>Added XS and XR to software page</td>
+</tr>
+<tr valign="top">
+<td>4/29/2005</td>
+<td>Updated Rc/Asm to version 2.4</td>
+</tr>
+<tr valign="top">
+<td>4/14/2005</td>
+<td>Posted ROM and Elf/OS versions of Rc/Basic L1<br> Posted ROM and Elf/OS versions of Rc/Basic L2<br> Posted source for Rc/Basic<br> All of these can be found on the software page</td>
+</tr>
+<tr valign="top">
+<td>3/1/2005</td>
+<td>Updated BIOS to version 1.0.4<br> Updated Elf/OS to version 0.2.6</td>
+</tr>
+<tr valign="top">
+<td>1/25/2005</td>
+<td>Updated BIOS to version 1.0<br> Updated Elf/OS version of ASM</td>
+</tr>
+<tr valign="top">
+<td>12/22/2004</td>
+<td>Added ROM version of Edt/Asm to Software page</td>
+</tr>
+<tr valign="top">
+<td>12/13/2004</td>
+<td>Updated Pico/Elf schemtic and board files<br> Added Pico/Elf I/O expansion files to hardware page</td>
+</tr>
+<tr valign="top">
+<td>12/10/2004</td>
+<td>Updated INSTALL, LOAD, DUMP, and SAVE on Elf/OS software downloads</td>
+</tr>
+<tr valign="top">
+<td>12/09/2004</td>
+<td>Released version 0.2.5 of Elf/OS<br> Posted version 0.7 of BiosIO</td>
+</tr>
+<tr valign="top">
+<td>11/30/2004</td>
+<td>Released version 0.2.4 of Elf/OS</td>
+</tr>
+<tr valign="top">
+<td>11/29/2004</td>
+<td>Released version 2.3 of emulator</td>
+</tr>
+<tr valign="top">
+<td>11/24/2004</td>
+<td>Added schematic for TMS9118/TMS9918 graphics card</td>
+</tr>
+<tr valign="top">
+<td>11/23/2004</td>
+<td>Added photo gallery</td>
+</tr>
+<tr valign="top">
+<td>11/09/2004</td>
+<td>Added Eagle files for Pico/Elf on hardware page</td>
+</tr>
+<tr valign="top">
+<td>10/11/2004</td>
+<td>Released version 0.9 of the BIOS<br> Added a ROM version of RC/Forth to the software page<br> Added a ROM version of RC/Lisp to the software page</td>
+</tr>
+<tr valign="top">
+<td>9/14/2004</td>
+<td>Added rudimentory manual for Elf/OS in the Elf/Os page<br> Added Rc/Lisp to the Elf/OS software page<br> Updated EDIT command for Elf/OS</td>
+</tr>
+<tr valign="top">
+<td>8/26/2004</td>
+<td>Released version 0.2.3 of Elf/OS</td>
+</tr>
+<tr valign="top">
+<td>8/05/2004</td>
+<td>Updated Elf/OS to version 0.2.2<br> Updated BiosIO to version 5</td>
+<td>&nbsp;</td>
+</tr>
+<tr valign="top">
+<td>7/28/2004</td>
+<td>Added Eagle .sch files for Micro/Elf and expansions<br></td>
+</tr>
+<tr valign="top">
+<td>7/21/2004</td>
+<td>Released V0.8 of the Elf/OS BIOS<br> Updated Elf/OS programs: ASM, DUMP, SAVE<br> Updated schematic for port extender<br> Updated schematic for Micro/Elf expansion board<br></td>
+</tr>
+<tr valign="top">
+<td>7/13/2004</td>
+<td>Released Elf/OS V0.2<br></td>
+</tr>
+<tr valign="top">
+<td>6/29/2004</td>
+<td>Updated Emulator to v2.2 (both unix and windows)<br> Released Elf/OS V0.1<br></td>
+</tr>
+<tr valign="top">
+<td>6/07/2004</td>
+<td>Updated Emulator<br> Updated Rc/Asm<br> Updated Elf/OS BIOS to version 0.7</td>
+</tr>
+<tr valign="top">
+<td>5/25/2004</td>
+<td>Added Eagle .BRD files for the Micro/Elf and Micro/Elf hexpad to the         hardware page</td>
+</tr>
+<tr valign="top">
+<td>5/20/2004</td>
+<td>Updated the port extender and ide-8 schematics<br> Added schematics for other expansions</td>
+</tr>
+<tr valign="top">
+<td>5/13/2004</td>
+<td>Emulator version 2.0 is now available</td>
+</tr>
+<tr valign="top">
+<td>5/10/2004</td>
+<td>Emulator version 1.9 is now available<br> Added Micro/Elf schematic to hardware section</td>
+</tr>
+<tr valign="top">
+<td>4/23/2004</td>
+<td>Emulator version 1.8 is now available</td>
+</tr>
+<tr valign="top">
+<td>4/21/2004</td>
+<td>Added 2 programs to the software page<br> Released bios v0.6</td>
+</tr>
+<tr valign="top">
+<td>4/07/2004</td>
+<td>Updated bios and added some Elf/OS information<br> Added Rc/Forth to software page<br> Update on Micro/Elf availability</td>
+</tr>
+<tr valign="top">
+<td>3/30/2004</td>
+<td>Updated emulator (unix and windows) to version 1.7</td>
+</tr>
+<tr valign="top">
+<td>3/29/2004</td>
+<td>Added IDE interface to both my emulator and Elf/OS Bios<br> Updated windows version of emultor to 1.6</td>
+</tr>
+<tr>
+<td>3/26/2004</td>
+<td>Added IDE interface schematics to hardware page</td>
+</tr>
+<tr>
+<td>3/25/2004</td>
+<td>Release emulator version 1.5</td>
+</tr>
+<tr>
+<td>3/24/2004</td>
+<td>Added Multiple DMA Selector to hardware page</td>
+</tr>
+<tr>
+<td>3/23/2004</td>
+<td>Bios v 0.3 released</td>
+</tr>
+<tr>
+<td>3/23/2004</td>
+<td>Updated information on Micro/Elf kits.  Updated Elf/OS page</td>
+</tr>
+<tr>
+<td>3/19/2004</td>
+<td>Added pictures of Micro/Elf kit</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>Links to other Elf/1802 Sites:</strong></p>
+<p><a href="http://www.cosmacelf.com/">Cosmac Elf</a></p>
+<p><a href="http://www.sparetimegizmos.com/Hardware/Elf2K.htm">Spare Time Gizmos Elf2K kit</a></p>
+<p><a href="http://groups.msn.com/RCACDP1802CosmacComputer/">Cosmac Elf MSN Group</a></p>
+<p><a href="http://www.tinyelf.com/">AnElf emulator for OS X</a></p>
+<p><a href="http://incolor.inetnebr.com/bill_r/computer_simulators.htm">Another Elf emulator</a></p>
+<p><a href="http://www.decodesystems.com/cosmac/index.html">RCA Cosmac Microprocessor</a></p>
+<p><a href="http://wefurnish.com/elf/">Super Elf Files</a></p>
+<p><a href="http://www.classicgaming.com/studio2/">Studio 2 Emulator</a></p>
+<p>&nbsp;</p>
+<p><strong>My other Projects:</strong></p>
+<p><a href="http://www.historicsimulations.com/index.html">Historic Computer Simulations</a></p>
+<p><a href="http://www.elf-emulation.com/rcs/unicorn5/index.html">Quest for the Unicorn</a></p>
+<p><a href="http://www.lunarmissionsimulator.com/">Lunar Mission Simulator</a></p>
+<p>Comments or suggestion for this site may be send to <a href="mailto:mikehriley@hotmail.com">Mike Riley</a></p>
+
+
+</body></html>

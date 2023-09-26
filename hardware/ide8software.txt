@@ -1,0 +1,168 @@
+resetide:  ldi     high waitrdy        ; get address of subs
+           phi     rf                  ; place into rf
+           ldi     low waitrdy
+           plo     rf
+           sex     r2                  ; point x to stack
+           mark                        ; save current P and X
+           sep     rf                  ; call wait for RDY routine
+           dec     r2                  ; compensate for RET increment
+           ldi     0                   ; code to select master
+           stxd                        ; write to stack
+           ldi     6                   ; select device register
+           str     r2                  ; write to stack
+           out     2                   ; write select port
+           out     3                   ; write device code
+           dec     r2                  ; point back
+           ldi     2                   ; function to perform soft reset
+           stxd                        ; write to stack
+           ldi     00eh                ; set interupt port
+           str     r2                  ; write to stack
+           out     2                   ; write select port
+           out     3                   ; write reset code
+           dec     r2                  ; point back
+           ldi     low waitrdy
+           plo     rf
+           mark                        ; save current P and X
+           sep     rf                  ; call wait for RDY routine
+           dec     r2                  ; compensate for RET increment
+           ldi     0efh                ; command to set features
+           stxd                        ; store on stack
+           ldi     7                   ; command register address
+           stxd                        ; store on stack
+           ldi     1                   ; enable 8-bit mode
+           stxd                        ; store on stack
+           str     r2                  ; also is feature register address
+           out     2                   ; selec feacture register
+           out     3                   ; select 8-bit mode
+           out     2                   ; select command register
+           out     3                   ; issue set feature command
+           dec     r2                  ; compensate for last out
+           ldi     low waitrdy
+           plo     rf
+           mark                        ; save current P and X
+           sep     rf                  ; call wait for RDY routine
+           sep     sret                ; return to caller
+
+           
+wrtide:    ldi     high waitrdy        ; get address of subs
+           phi     rc                  ; place into rf
+           ldi     low waitrdy
+           plo     rc
+           sex     r2                  ; point x to stack
+           mark                        ; save current P and X
+           sep     rc                  ; call wait for RDY routine
+           dec     r2                  ; compensate for RET increment
+           ldi     030h                ; command for sector write
+           mark                        ; save current P and X
+           sep     rc                  ; now call command sequence
+           dec     r2                  ; compensate for RET increment
+           ldi     2                   ; high byte of 512
+           phi     r7                  ; place into count
+           ldi     0                   ; low byte of 512
+           plo     r7                  ; place into low of count
+           ldi     0                   ; need data register
+           str     r2                  ; place on stack
+           out     2                   ; select data register
+           dec     r2                  ; move pointer
+           sex     rf                  ; set data pointer
+wrtloop:   out     3                   ; write to ide controller
+           dec     r7                  ; decrement byte count
+           glo     r7                  ; check for completion
+           bnz     wrtloop             ; jump if not
+           ghi     r7                  ; need to check high byte
+           bnz     wrtloop             ; jump if more to go
+           sex     r2                  ; point x to stack
+           mark                        ; save current P and X
+           sep     rc                  ; call waitrdy routine
+           dec     r2                  ; compensate for RET increment
+           sep     sret                ; and return to caller
+
+rdide:     ldi     high waitrdy        ; get address of subs
+           phi     rc                  ; place into rf
+           ldi     low waitrdy
+           plo     rc
+           sex     r2                  ; point x to stack
+           mark                        ; save current P and X
+           sep     rc                  ; call wait for RDY routine
+           dec     r2                  ; compensate for RET increment
+           ldi     020h                ; command for sector read
+           mark                        ; save current P and X
+           sep     rc                  ; now call command sequence
+           dec     r2                  ; compensate for RET increment
+           ldi     2                   ; high byte of 512
+           phi     r7                  ; place into count
+           ldi     0                   ; lo byte of 512
+           plo     r7                  ; place into low of count
+           str     r2                  ; place on stack
+           out     2                   ; select data register
+           dec     r2                  ; move pointer
+           sex     rf                  ; set data pointer
+rdloop:    inp     3                   ; read from ide controller
+           inc     rf                  ; point to next position
+           dec     r7                  ; decrement byte count
+           glo     r7                  ; check for completion
+           bnz     rdloop              ; jump if not
+           ghi     r7                  ; need to check high byte
+           bnz     rdloop              ; jump if more to go
+           ldi     0                   ; signify read complete
+           sex     r2
+           sep     sret                ; and return to caller
+
+          
+beforerdy: irx                         ; move pointer to SAV location
+           ret                         ; and return to caller
+waitrdy:   sex     r2
+           ldi     07h                 ; need status register
+           str     r2                  ; store onto stack
+           out     2                   ; write ide selection port
+           dec     r2                  ; point x back to free spot
+rdyloop:   inp     3                   ; read status port
+           ani     0c0h                ; mask for BSY and RDY
+           smi     040h                ; want only RDY bit
+           bnz     rdyloop             ; loop back until drive is ready
+           ldn     r2                  ; get status byte
+           irx                         ; move pointer to SAV location
+           ret                         ; and return to caller
+; RF will point to wrtcmd, which is next needed after first waitrdy
+wrtcmd:    sex     r2
+           stxd                        ; write passed command to stack
+           ldi     7                   ; command register
+           stxd                        ; write to stack
+           ghi     r8                  ; get device
+           stxd                        ; write to stack
+           ldi     6                   ; head/device register
+           stxd                        ; write to stack
+           glo     r8                  ; get high of lba
+           stxd                        ; write to stack
+           ldi     5                   ; cylinder high register
+           stxd                        ; write to stack
+           ghi     r7                  ; get mid of lba
+           stxd                        ; write to stack
+           ldi     4                   ; cylinder lo register
+           stxd                        ; write to stack
+           glo     r7                  ; get lo of lba
+           stxd                        ; write to stack
+           ldi     3                   ; sector start register
+           stxd                        ; write to stack
+           ldi     1                   ; read one sector
+           stxd                        ; write to stack
+           ldi     2                   ; sector count register register
+           str     r2                  ; write to stack
+           out     2                   ; select sector count register
+           out     3                   ; write sector count
+           out     2                   ; select lba lo register
+           out     3                   ; write low of lba
+           out     2                   ; select lba mid register
+           out     3                   ; write mid of lba
+           out     2                   ; select lba high register
+           out     3                   ; write high of lba
+           out     2                   ; select head/device register
+           out     3                   ; write device
+           out     2                   ; select command register
+           out     3                   ; write the write command
+           dec     r2                  ; point back to free register
+drqloop:   inp     3                   ; read status register
+           ani     8                   ; mask for DRQ bit
+           bz      drqloop             ; loop until found
+           br      beforerdy           ; return, readying waitrdy again
+; the branch to beforerdy, allows us to use waitrdy again

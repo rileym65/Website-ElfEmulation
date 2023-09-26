@@ -1,0 +1,221 @@
+<html>
+<head>
+  <title>Elf Emulator</title>
+</head>
+
+<body bgcolor=white text=black>
+<table border=0>
+  <tr>
+    <td><a href="index.html"><img src="home.gif" border=0></a></td>
+    <td><a href="emulator.html"><img src="emulator.gif" border=0></a></td>
+    <td><a href="rcasm.html"><img src="rcasm.gif" border=0></a></td>
+    <td><a href="1802.html"><img src="cpu1802.gif" border=0></a></td>
+    <td><a href="elfos.html"><img src="elfos.gif" border=0></a></td>
+    <td><a href="software.html"><img src="software.gif" border=0></a></td>
+    <td><a href="hardware.html"><img src="hardware.gif" border=0></a></td>
+    <td><a href="gallery.html"><img src="gallery.gif" border=0></a></td>
+  </tr>
+</table>
+
+<center><h3>RCS Elf Emulator</h3></center>
+
+<b>Features:</b>
+<ul type=disc>
+  <li>Up to 64k of ram
+  <li>7 operating modes:
+    <ul type=disc>
+      <li>Standard - Operates like the elf project in Popular Electronics
+      <li>Elf II - Operates like the Netronics Elf II system
+      <li>Super Elf - Operates like the Quest Super Elf system
+      <li>Studio II - Operates like the Studio II game console
+      <li>ComX-35 - Operates like the ComX-35 computer. Thanks to Marcel van Tongeren for the technical info for this.
+      <li>Cidelsa - Operates like the Cidelsa 1802 based arcade machine
+      <li>Pico/Elf V2 - Operates like the Pico/Elf V2
+    </ul>
+  <li>Pixie Graphics - As described in Popular Electronics
+  <li>VT-100 Terminal emulation  - Works in Elf II Giant Board serial mode (Q and EF4)
+  <li>IDE interface with 2 30mb drives
+  <li>Rudimentary 6847 video controller support
+  <li>Currenty runs on Unix/Linux, I have compiled this on windows, but it is a bit touchy
+  <li>Includes source code (c)
+</ul>
+
+<p><a href="elf.tgz">Download the Elf Emulator here</a></p>
+<p>The <a href="librcs.tgz">libRcs library</a> is required for this to run</p>
+
+<p><a href="disktool.tgz">Download the Elf Emulator disk tools</a>.
+The disk tools allow you to easiliy manipulate Elf/OS disks</p>
+
+<hr>
+<p><b>Windows</b> executables can be <a href="winelf.zip">downloaded here</a>
+(this is version 2.6)
+<p><b>notes on windows version:</b><br>
+Most of the graphics issues have been resolved. Many thanks to Richard Peters 
+for his work on solving these!  The window refresh problem remains however.
+Debug now works correctly with F1
+<p>Also note that command line arguments can still be given to this executable.  To use
+these, create a shortcut and then edit the "Target" field to include the paramters you
+would like.
+  <p> I have had reports from several people using the windows version
+  that closing the windows using the X button causes strange results.  When
+  exiting the elf emulator be sure to use the power switch on the emulator,
+  or F9, instead of closing the program with the X button.
+<hr>
+<b>Change History:</b><p>
+<table border=0>
+  <tr valign=top>
+    <th align=left>Date</th>
+    <th align=left>Version</th>
+    <th align=left>Notes</th>
+  </tr>
+  <tr valign=top>
+    <td>11/02/2020</td>
+    <td>2.7</td>
+    <td>Added support for Pico/Elf V2 hardware
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>4/03/2007</td>
+    <td>2.6</td>
+    <td>Fixed yet more problems in the CDP1869/70 emulation<br>
+        Added support for the Cidelsa arcade machines (no roms supplied)
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>4/20/2006</td>
+    <td>2.5</td>
+    <td>Fixed some problems in the CDP1869/70 emulation<br>
+        Cleaned up the sources to make them easier to compile on Windows
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>3/22/2006</td>
+    <td>2.4b</td>
+    <td>added CDP1869/70 mode<br>
+        added comx mode (requires comx-35 rom image)<br>
+        Unix version can now use physical disk devices<br>
+        Added user-settable disk geometry
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>11/29/2004</td>
+    <td>2.3</td>
+    <td>Added rudimentary 9918A support.  Text, Graphics I, and
+        Graphics II modes are working.  Multi-color mode and sprites are not
+        yet implemented.  Emulation is a bit slow when changing 9918 registers, but
+        after that it runs well.
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>6/29/2004</td>
+    <td>2.2</td>
+    <td>mostly minor changes
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>6/07/2004</td>
+    <td>2.1</td>
+    <td>Added ability to read Intel Hex formatted files
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>5/13/2004</td>
+    <td>2.0</td>
+    <td>Added reverse sense capability to serial port<br>
+        Netronics Pilot is now running</td>
+  </tr>
+  <tr valign=top>
+    <td>5/10/2004</td>
+    <td>1.9</td>
+    <td>Many of the windows issues have been resolved (thanks Richard!!)<br>
+        Studio II mode has been added.  can read stem .st2 rom files<br>
+        Added F9 as an emulator exit key.<br>
+        Added clock limiting
+        Added dialog to get run statistics (F2 key opens/closes this)
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>4/23/2004</td>
+    <td>1.8</td>
+    <td>Revamped the debugger. Now has graphical interface</td>
+  </tr>
+  <tr valign=top>
+    <td>3/30/2004</td>
+    <td>1.7</td>
+    <td>Rewrote pixie driver so that it acts more like a real one.<br>
+        Made some improvements to the rom reader<br>
+        Super Basic, Super Basic 5, and OakRidge Tiny Basic have all
+          been tested and are working</td>
+  </tr>
+  <tr valign=top>
+    <td>3/29/2004</td>
+    <td>1.6</td>
+    <td>Added support for IDE interface, simulates 2 30mb drives.  Added
+        rudimentary support for 6847 video controller</td>
+  </tr>
+  <tr valign=top>
+    <td>3/25/2004</td>
+    <td>1.5</td>
+    <td>Changed device architecture to make it easier to add new devices
+        or to change ports at runtime.  Vastly improved performance for Pixie 
+        graphics.  Improved the debugging mode.  Pixie graphics mode is no
+        longer enabled with -g, it uses -1861 instead.  This was so i could
+        accomodate other graphics systems in the future.
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>2/17/2004</td>
+    <td>1.4</td>
+    <td>Added support for the 1mb memory mapper and port extender</td>
+  </tr>
+  <tr valign=top>
+    <td>1/28/2004</td>
+    <td>1.3</td>
+    <td>Added support for a 1793 disk controller with 4 drives.  All type I
+        and single sector type II commands are working.</td>
+  </tr>
+  <tr valign=top>
+    <td>1/26/2004</td>
+    <td>1.2</td>
+    <td>Fixed some subtract bugs I inadvertantly put in while fixing the last subtract bugs :)  Tiny Basic is now running</td>
+  </tr>
+  <tr valign=top>
+    <td>1/23/2004</td>
+    <td>1.1</td>
+    <td>Fixed some subtract bugs in the cpu core, added a 1805 mode</td>
+  </tr>
+  <tr valign=top>
+    <td>1/21/2004</td>
+    <td>1.0</td>
+    <td>Initial public release. Currently can run IDIOT/4 Monitor</td>
+  </tr>
+</table>
+
+<p><b>Screen Shots:</b><br>
+<img src="elf.gif"> <img src="pixie.gif"><br>
+<img src="elf2.gif"><br>
+<img src="superelf.gif"><br>
+<img src="st2.gif"><br>
+<img src="st2_1.gif">
+<img src="st2_2.gif">
+<br>
+<img src="elfdebugger.gif"><br>
+<img src="pilot.gif"><br>
+<img src="rcforth.gif"><br>
+<img src="idiot4.gif"><br>
+<img src="tbasic.gif"><br>
+<img src="nb1.gif"><img src="nb2.gif">
+<img src="invaders.gif"><br>
+<img src="sb5.gif"><br>
+<br>
+<img src="9918_1.gif">
+<img src="9918_2.gif">
+<img src="9918_3.gif">
+<br>
+<img src="comx.gif">
+<img src="cidelsa.gif">
+<br>
+
+
+</body>
+</html>

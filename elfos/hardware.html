@@ -1,0 +1,172 @@
+<html>
+<head>
+  <title>Elf/OS</title>
+</head>
+
+<body bgcolor=white text=black>
+<h3>Hardware:</h3>
+<ul type=disc>
+  <li>1802 based computer, built equivalent to Micro/Elf, Elf, Elf II, or Super Elf
+  <li>Serial Interface equivalent to Giant Board (Q and EF4)
+  <li>IDE/CF interface
+  <li>Minimum of 12k ram
+  <li>Optional memory mapper
+</ul>
+<hr>
+
+<p><h4>Ports:</h4>
+<table border=0>
+  <tr valign=top>
+    <th align=left>Port</th>
+    <th align=left>In</th>
+    <th align=left>Out</th>
+  </tr>
+  <tr valign=bottom>
+    <td>1</td>
+    <td>Activate Pixie graphics<sup>1</sup></td>
+    <td>Deactivate Pixie graphics<sup>1</sup></td>
+  </tr>
+  <tr valign=bottom>
+    <td>2</td>
+    <td></td>
+    <td>Write disk controller selection port<sup>3</sup></td>
+  </tr>
+  <tr valign=bottom>
+    <td>3</td>
+    <td>Read disk controller selected port<sup>3</sup></td>
+    <td>Write disk controller selected port<sup>3</sup></td>
+  </tr>
+  <tr valign=bottom>
+    <td>4</td>
+    <td>Read input switches/keypad<sup>1</sup></td>
+    <td>Write data displays<sup>1</sup></td>
+  </tr>
+  <tr valign=bottom>
+    <td>5</td>
+    <td></td>
+    <td>Select memory pager cell to change<sup>3</sup></td>
+  </tr>
+  <tr valign=bottom>
+    <td>6</td>
+    <td></td>
+    <td>Write new memory offset to selected pager cell<sup>3</sup></td>
+  </tr>
+  <tr valign=bottom>
+    <td>7</td>
+    <td>Read input ASCII keyboard<sup>2</sup></td>
+    <td>Write output port<sup>2</sup></td>
+  </tr>
+</table>
+<sup>1</sup> Defined by standard Elf system documentation<br>
+<sup>2</sup> As per Giant Board documentation<br>
+<sup>3</sup> Non-standardized ports used by my hardware<br>
+<hr>
+
+<p><h4>EF Lines</h4>
+<table border=0>
+  <tr>
+    <td>EF1</td>
+    <td>Pixie graphics frame indicator</td>
+  </tr>
+  <tr>
+    <td>EF4</td>
+    <td>Serial IN line</td>
+  </tr>
+</table>
+<hr>
+
+<p><h4>Memory Pager:</h4>
+This memory mapper works on the principal of the top 4 address lines being used
+to access an additional 8 bits of address space stored in a 16x8 memory.  This
+brings the total address bits to 20 providing 1MB of ram segmented into 256 4k
+pages.
+<p>The circuit for the memory mapper ignores position 0, thus allowing during
+reset the bottom 4k of ram to be available.
+<hr>
+
+<a name="memmap"></a>
+<p><h4>Memory Map:</h4>
+This map represents the target memory map for Elf/OS.
+<table border=1>
+  <tr valign=top>
+    <td>
+      0000<br>
+      007F
+    </td>
+    <td>
+      Scratchpad area
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>
+      0080<br>
+      00FF
+    </td>
+    <td>
+      Keyboard input buffer
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>
+      0100<br>
+      02FF
+    </td>
+    <td>
+      Disk transfer buffer
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>
+      0300<br>
+      1FFF
+    </td>
+    <td>
+      Elf/OS Kernel
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>
+      2000<br>
+      EFFF
+    </td>
+    <td>
+      Space for user programs
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>
+      F000<br>
+      FFFF
+    </td>
+    <td>
+      Bios ROM
+    </td>
+  </tr>
+</table>
+<h4>Register Assignments:</h4>
+<table border=0>
+  <tr>
+    <td>R2</td>
+    <td>Stack Pointer</td>
+  </tr>
+  <tr>
+    <td>R3</td>
+    <td>Main PC</td>
+  </tr>
+  <tr>
+    <td>R4</td>
+    <td>Standard Call Vector</td>
+  </tr>
+  <tr>
+    <td>R5</td>
+    <td>Standard Return Vector</td>
+  </tr>
+  <tr>
+    <td>R6</td>
+    <td>Used by SCALL and SRET routines</td>
+  </tr>
+</table>
+<hr>
+</body>
+</html>
+

@@ -1,0 +1,386 @@
+<html>
+<head>
+  <title>Elf Software</title>
+</head>
+
+<body bgcolor=white text=black>
+
+<table border=0>
+  <tr>
+    <td><a href="index.html"><img src="home.gif" border=0></a></td>
+    <td><a href="emulator.html"><img src="emulator.gif" border=0></a></td>
+    <td><a href="rcasm.html"><img src="rcasm.gif" border=0></a></td>
+    <td><a href="1802.html"><img src="cpu1802.gif" border=0></a></td>
+    <td><a href="elfos.html"><img src="elfos.gif" border=0></a></td>
+    <td><a href="software.html"><img src="software.gif" border=0></a></td>
+    <td><a href="hardware.html"><img src="hardware.gif" border=0></a></td>
+    <td><a href="gallery.html"><img src="gallery.gif" border=0></a></td>
+  </tr>
+</table>
+
+<center><h3>Software</h3></center>
+<p><a href="software/stacksub.html">Implementing stack based call/return</a>
+<p><a href="software/rcforth.tgz">Rc/Forth v1.0</a><br>
+   A small forth system for Elf computers.  This program requires the Elf/OS
+   BIOS (v.5 or higher).
+   It uses serial communication for the console.  Currently error handling is rather
+   minimum, especially if the error occurs in a function called by a function.
+   Negative number handling is not correct on the / operator but appears to work
+   everywhere else.
+
+<p><a href="software/forth_rom.tgz">Rc/Forth - ROM version</a><br>
+   This version of Rc/Forth is designed to reside in rom.  It is set to assemble at
+   E000h, but can be moved to anywhere above 8000h.  BIOS v0.5 or higher is required
+   to run this.
+
+<p><a href="software/dice.html">Dice rolling simulation</a>
+<p><a href="software/rctops.html">Extended ETOPS program</a>
+
+<p><a href="software/rclisp_rom.tgz">Rc/Lisp - ROM version</a><br>
+  A small rom version of Rc/Lisp.  Assemgbly listing is set to assemble at D000h, but
+  can be moved to anywhere above 8000h.  BIOS v0.9 or higher is needed to run this.
+
+<p><a href="software/edtasm.tgz">Edt/Asm - ROM version</a>,
+   <a href="software/edtasm.prg">Hex file</a><br>
+This is an editor with integrated in-memory assembler.  The assembler is
+completely ROMmabe, and as assembled exists at 8000h.  The assembler as 
+assembled uses memory above 1000h for variables and the text editor buffer,
+leaving all addresses below 1000h available for assembled programs.  By
+changing the ORGs, this assembler can be moved to anywhere in memory and the
+RAM portion can be moved to anywere where there is RAM.
+
+<p><a href="software/bascom.tgz">BASCOM - ROM version Tiny Basic Compiler</a><br>
+This is the ROM version of my Tiny Basic Compiler.  It includes an integrated
+editor for editing source code.  Richard's ROM version of ILRUN is required to
+use this package
+
+<p><a href="software/elfos/rcbasic_r_l1.prg">Rc/Basic L1</a><br>
+This is the ROM version of the Rc/Basic Level I interpreter.  This image was
+assembled at 08000h with its data area starting at 0000
+
+<p><a href="software/elfos/rcbasic_r_l2.prg">Rc/Basic L2</a><br>
+This is the ROM version of the Rc/Basic Level II interpreter.  This image was
+assembled at 08000h with its data area starting at 0000
+
+<p><a href="software/fp.asm">Floating Point Subroutines</a><br>
+These routines implement single precision floating point on the 1802.  The
+following functions currently exist: atof, add, sub, mul, div.
+
+<p><a href="software/floatingpoint.asm">Floating Point Subroutines (new)</a><br>
+These routines implement single precision floating point on the 1802.  The
+following functions currently exist: atof, ftoa, itof, ftoi, add, sub, mul, div.
+
+<p><a href="software/trig.asm">Floating Point Trig Subroutines</a><br>
+This group of routines provide the trig functions for the 1802, these subroutines
+require the floating point subroutines above.  The following functions are included:
+fpsin, fpcos, fptan, fpasin, fpacos, fpatan, fplog, fpexp, fppow, fpsqrt.
+
+<p><a href="software/32bit.asm">32-bit Integer Subroutines</a><br>
+These routines implement 32-bit signed integers on the 1802.  The following 
+functions are included: add32, sub32, mul32, div32, inc32, dec32, cmp32, iszero,
+null32, isneg, comp2s, shl32, shr32, itoa, atoi.
+
+<p><a href="software/scalable.asm">Scalable Integer Subroutines</a><br>
+These routines implement scalable (8-bit through 2040-bit) integers on the 1802.  The
+following functins are included: scadd, scsub, scmul, scdiv, scinc, scdec, sccmp, sczero,
+scnull, scismn, comp2s, scshl, scshr.
+
+<p><a href="software/strings.asm">String Subroutines</a><br>
+These routines provide a number of string subroutines for the 1802.  The following
+fuctions are included: strcpy, strcat, strlen, left, mid, right, lower, upper, strcmp.
+
+<hr>
+<center><h3>Programs for Elf/OS</h3></center>
+<hr>
+
+<p><a href="software/elfos/elfos_ram.hex">Elf/OS RAM-based installer</a><br>
+This contains the RAM-based Elf/OS installation package.  This file can be
+used with systems that support intel-hex based downloads (Like Spare Time
+Gizmos' ROM) for installing Elf/OS from RAM.
+
+<p><a href="software/elfos/tbc.tgz">TBC - Tiny Basic Compiler</a><br>
+This program compiles Tiny Basic to IL code.  Programs run from 10x to 20x
+faster than interpreted Tiny Basic.  Richard's ILRUN is required to run
+programs generated from this compiler
+
+<p><a href="software/elfos/ilread.tgz">ILREAD - IL File Loader</a><br>
+This programs reads the IL codes created by TBC into memory, in preparation
+to be run by ILRUN
+
+<p><a href="software/elfos/forth.tgz">FORTH - FORTH Language Interpreter</a><br>
+This is the Elf/OS version of my RC/Forth interpreter
+
+<p><a href="software/elfos/lisp.tgz">LISP - LISP Language Interpreter</a><br>
+This is the Elf/OS version of my RC/Lisp interpreter
+
+<p><a href="software/elfos/rcbasicl1.prg">Rc/Basic L1</a><br>
+This is the Elf/OS version of the Rc/Basic Level I interpreter
+
+<p><a href="software/elfos/rcbasicl2.prg">Rc/Basic L2</a><br>
+This is the Elf/OS version of the Rc/Basic Level II interpreter
+
+<p><a href="software/elfos/rcbasic.asm">Rc/Basic source</a><br>
+This is the source file for building both Rc/Basic L1 and Rc/Basic L2, as well
+as the Rom vs Elf/OS versions.  The source uses #define to determine which of
+ther 4 interpreters will be built.
+
+<p><a href="software/elfos/rcbasic.txt">Rc/Basic manual</a><br>
+This is the manual covering all versions of Rc/Basic.
+
+<p><a href="software/elfos/xs.tgz">XS</a><br>
+This is an XModem sender for Elf/OS
+
+<p><a href="software/elfos/xr.tgz">XR</a><br>
+This is an XModem receiver for Elf/OS
+
+<p><a href="software/elfos/lbr.tgz">LBR</a><br>
+This is a simple library program that can be used to lump a group of files 
+together for transfer using XR or XS
+
+<p><a href="software/elfos/zrun3.tgz">ZRUN3</a><br>
+Inforcom game interpreter for version 3 adventures (Zork I, II, and III)
+
+<p><a href="software/elfos/shell.tgz">SHELL</a><br>
+Integrated shell utility.  This is an early version and contains the
+following commands: CD (CHDIR), CP (COPY), RM (DEL), LS (DIR), MD (MKDIR), 
+RN (RENAME), RD (RMDIR), CAT (TYPE)
+
+<p><a href="software/elfos/asm2.tgz">ASM2</a><br>
+Initial release of linking assembler.  Link2 (not included) is needed to use
+this assembler
+
+<p><a href="software/elfos/link2.tgz">LINK2</a><br>
+Initial release of linker.  Note: Elf/OS build 192 or later is required.
+
+<hr>
+<center><h3>Pico/Elf V2</center>
+
+<p>Note:  all Pico/Elf V2 ROM images contain the Pico/Elf V2 BIOS.  It is not necessary
+to combine these images with a BIOS image.
+
+<p><a href="software/picoelf/runtime.hex">PEV2 Runtime ROM 2/26/2021</a><br>
+This ROM image contains the latest PEV2 runtime.  This ROM contains v1.0.7 BIOS, 
+Visual/02, and v1.0.0 of the Standard Functions Library.
+
+<p><a href="software/picoelf/pico_elfos_new.hex">Elf/OS Install Package 12/22/2020</a><br>
+This ROM image contains the complete Elf/OS install package.  This ROM also contains
+the ROM portion of Visual/02, but to use this you will need to install the VISUAL02
+Elf/OS stub.
+
+<p><a href="software/picoelf/pico_elfos.hex">Elf/OS Install Package (OLD)</a><br>
+This ROM image contains the complete Elf/OS install package.  This ROM also includes
+SEDIT @F000
+
+<p><a href="software/picoelf/pico_diskless.hex">Disk-less</a><br>
+This ROM is intended for use on a disk-less Pico/Elf V2.  This rom contains the ROM
+versions of Rc/Basic L2, Rc/Forth, Rc/Lisp, EDTASM, and Visual/02.  This ROM also
+contains tools for doing bulk memory save/load over XMODEM.
+
+<p><a href="software/picoelf/pico_shell.hex">Elf/OS Shell</a><br>
+This ROM image contains the current version of Elf/OS Shell.
+
+<p><a href="software/picoelf/pico_lang.hex">Programming Languages</a><br>
+This ROM image contains the Elf/OS install package for Rc/Basic L2, Rc/Forth, and
+Rc/Lisp.
+
+<p><a href="software/picoelf/pico_zrun.hex">Zrun3</a><br>
+This ROM image contains the Elf/OS install package for Zrun3, a program for playing
+Infocom v3 adventures, Zork for example.
+
+<p><a href="software/picoelf/pico_xrxs.hex">XR/XS</a><br>
+This ROM image contains the Elf/OS install package for XR, an XMODEM receiver, and
+XS, an XMODEM sender.
+
+<p><a href="software/picoelf/pico_tbc.hex">TBC/TBRUN</a><br>
+This ROM image contains the Elf/OS install package for TBC, a Tiny Basic Compiler,
+and TBRUN, the executer for compiled Tiny Basic programs.
+
+<p><a href="software/picoelf/pico_visual02.hex">Visual/02</a><br>
+This ROM image contains the Elf/OS install package for Visual/02.  Note that this
+ROM is a hybrid ROM with the main Visual/02 code running from the ROM.  Only a stub
+program is installed so that Visual/02 can be started from Elf/OS.  The stub program
+allows for a program to be spedified, if specified that program will be loaded before
+Visual/02 is started.
+
+<p><a href="software/picoelf/pico_lbr.hex">LBR</a><br>
+This ROM contains the Elf/OS install package for LBR.  This is a tool that allows you
+to pack multiple files together into a single file.  This tool allows you to (A)dd, 
+(L)ist, or (E)xtract files from the library.
+
+<hr>
+<center><h3>Binaries</h3></center>
+<p>These binary files are suitable for sending to an Elf/OS system using XR</p>
+<p><b>Elf/OS Base Tools</b></p>
+<table cellpadding="5">
+  <tr>
+    <td><a href="software/binaries/asm.2">ASM.2 (F180)</a></td>
+    <td><a href="software/binaries/chdir.1">CHDIR.1 (5DD0)</a></td>
+    <td><a href="software/binaries/chmod.19">CHMOD.19 (8AF7)[032+]</a></td>
+    <td><a href="software/binaries/copy.1">COPY.1 (1E19)</a></td>
+    <td><a href="software/binaries/crc.1">CRC.1 (DFE3)</a></td>
+  </tr>
+  <tr>
+    <td><a href="software/binaries/del.1">DEL.1 (5454)</a></td>
+    <td><a href="software/binaries/dir.8">DIR.8 (C12E)[032+]</a></td>
+    <td><a href="software/binaries/dump.1">DUMP.1 (1CFD)</a></td>
+    <td><a href="software/binaries/edit.1">EDIT.1 (784A)</a></td>
+    <td><a href="software/binaries/exec.1">EXEC.1 (251D)</a></td>
+  </tr>
+  <tr>
+    <td><a href="software/binaries/free.1">FREE.1 (BEDB)</a></td>
+    <td><a href="software/binaries/help.11">HELP.11 (EB4D)</a></td>
+    <td><a href="software/binaries/hexdump.1">HEXDUMP.1 (6FC2)</a></td>
+    <td><a href="software/binaries/install.1">INSTALL.1 (8955)</a></td>
+    <td><a href="software/binaries/kread.1">KREAD.1 (6EC7)</a></td>
+  </tr>
+  <tr>
+    <td><a href="software/binaries/lbr.5">LBR.5 (3E27)</a></td>
+    <td><a href="software/binaries/load.1">LOAD.1 (150A)</a></td>
+    <td><a href="software/binaries/minimon.3">MINIMON.3 (16AF)</a></td>
+    <td><a href="software/binaries/mkdir.1">MKDIR.1 (CB81)</a></td>
+    <td><a href="software/binaries/patch.1">PATCH.1 (3467)</a></td>
+  </tr>
+  <tr>
+    <td><a href="software/binaries/rename.1">RENAME.1 (0F8B)</a></td>
+    <td><a href="software/binaries/rmdir.1">RMDIR.1 (3CCF)</a></td>
+    <td><a href="software/binaries/save.1">SAVE.1 (0869)</a></td>
+    <td><a href="software/binaries/sedit.1">SEDIT.1 (C514)</a></td>
+    <td><a href="software/binaries/stat.1">STAT.1 (26CC)</a></td>
+  </tr>
+  <tr>
+    <td><a href="software/binaries/sys.1">SYS.1 (DA82)</a></td>
+    <td><a href="software/binaries/type.6">TYPE.6 (2724)</a></td>
+    <td><a href="software/binaries/ver.15">VER.15 (3AD0)</a></td>
+    <td><a href="software/binaries/xr.4">XR.4 (4A41)</a></td>
+    <td><a href="software/binaries/xs.3">XS.3 (6180)</a></td>
+  </tr>
+</table>
+
+<p><b>Other Elf/OS Software</b></p>
+<table cellpadding="5">
+  <tr>
+    <td><a href="software/binaries/rcbasicl2.7">Rc/BasicL2.7 (C129)</a></td>
+    <td><a href="software/binaries/rcforth.1">Rc/Forth.1 (1645)</a></td>
+    <td><a href="software/binaries/tbc.1">TBC.1 (4CE3)</a></td>
+    <td><a href="software/binaries/tbrun.1">TBRUN.1 (DFC5)</a></td>
+    <td><a href="software/binaries/zrun3.3">ZRUN3.3 (68CB)</a></td>
+  </tr>
+  <tr>
+    <td><a href="software/binaries/sbc.1">SBC.1 (80F5)</a></td>
+    <td><a href="software/binaries/sbrun.1">SBRUN.1 (5EF7)</a></td>
+    <td><a href="software/binaries/sbrun32.1">SBRUN32.1 (009B)</a></td>
+    <td><a href="software/binaries/rclisp.2">Rc/Lisp.2 (9178)</a></td>
+    <td><a href="software/binaries/visual02.4">VISUAL02.4 (4CF5)</a></td>
+  </tr>
+  <tr>
+    <td><a href="software/binaries/asm2.41">Asm2.41 (B74D)</a></td>
+    <td><a href="software/binaries/link2.6">Link2.6 (6566)</a></td>
+  </tr>
+</table>
+
+<ul>
+  <li><a href="software/binaries/SHELL.bin">Shell (lowercase)</a>
+  <li><a href="software/binaries/rcbasicl2.14">Rc/Basic L2.14 (5DF9)</a> Requires kernel 231
+  <li><a href="software/binaries/rcforth.10">Rc/Forth.10 (0D21)</a> Requires kernel 231
+  <li><a href="software/binaries/kernel.216">Kernel.216 (98A3) Kernel build 216</a>
+  <li><a href="software/binaries/kernel.231">Kernel.231 (F59E) Kernel build 231</a>
+</ul>
+
+<hr>
+
+<center><h3>Elf/OS 0.3.2</h3></center>
+<p>
+For new installs:<br>
+<a href="software/picoelf/pico_elfos_032.hex">Elf/OS 0.3.2 Install ROM</a> Includes BIOS 1.0.7
+<p>
+Files needed for upgrading an existing system:<br>
+<a href="software/binaries/chmod.12">chmod.12 (25D2)</a> Tool for setting executable flag<br>
+<a href="software/binaries/kernel.240">kernel.240 (500A)</a>0.3.2 Kernel, build 240<br>
+<a href="software/packages/basetools032.lbr">basetools 1/17/2021 (3C76)<a/>Base tools for 0.3.2<br>
+<p>
+Very important!  If you are upgrading a system prior to build 237, you must download the
+chmod.12 tool to your Elf/OS system and use it to set the executable flag on your binaries
+in /BIN.  This must be done BEFORE installing the new kernel image.  If you do not do this
+step then you will be unable to execute anything after installing the new kernel.  Do
+not install the new basetools package until after installing the new kernel.  Before
+installing the new kernel, copy your chmod to another name (example chmod.12) since the
+existing lbr tool does not know how to set the executable flag (new lbr in the basetools
+does) when it extracts chmod it will not be executable, you will need the renamed one to
+fix that state.
+<p>
+Note:  The basetools for 0.3.2 cannot be used on a system with a kernel build older than
+240.
+
+<hr>
+
+<center><h3>Elf/OS 4.1.0</h3></center>
+<p>
+<a href="software/picoelf/pico_elfos_410.hex"> Elf/OS 4.1.0 Install ROM for PEV2</a> Includes BIOS 1.0.10<br>
+<a href="software/picoelf/basetools40.lbr">basetools40.lbr</a> Base tools for 4.1.0 (72EB/ACE2)<br>
+<a href="software/picoelf/kernel.348">kernel.348</a> Kernel 4.10 build 248 (0A6C/B572)<br>
+<a href="software/picoelf/shell.4">shell.4</a> Elf/OS 4.1.0 command shell build 4 (FEAC/2DEC)<br>
+<p>
+Note: If you are upgrading from a prior version of Elf/OS prior to 0.3.2, you need to follow the
+upgrade steps to 0.3.2 before upgrading to 4.1.0.
+
+<table cellpadding="5">
+  <tr>
+    <td><a href="software/binaries/rcbasicl2.69">RcBasicL2.69 (6F8D/3B12)</a></td>
+    <td><a href="software/binaries/rcforth.17">RcForth.17 (29B0/E1D9)</a></td>
+    <td><a href="software/binaries/rclisp.5">RcLisp.5 (F364/9C2A)</a></td>
+  </tr>
+</table>
+
+<hr>
+<center><h3>LBR packages</h3></center>
+<p>These packages are in .LBR format and can be sent to an Elf/OS system using XR</p>
+<ul>
+  <li><a href="software/packages/tbc.lbr">Tiny Basic Compiler 12/20/2020 (51DF)</a>
+  <li><a href="software/packages/sbc.lbr">Small Basic Compiler 12/20/2020 (7643)</a>
+  <li><a href="software/packages/basetools.lbr">Elf/OS base tools 12/24/2020 (ABC5)</a>
+  <li><a href="software/packages/pilot.lbr">Rc/Pilot+ programming language 04/14/2021 (6CC5)</a>
+  <li><a href="software/packages/mouse.lbr">Rc/Mouse programming language 04/14/2021 (4E75)</a>
+  <li><a href="software/packages/vtl2.lbr">Rc/VTL2 programming language 04/14/2021 (92A5)</a>
+</ul>
+
+<p><b>Help Libraries</b></p>
+<p>These libraries should be copied to the /hlp/ directory.  Do not extract these
+libraries, some contain files that are not legal Elf/OS filenames.  HELP reads these
+libraries directory with no need to extract them.
+</p>
+<ul>
+  <li><a href="software/packages/hlp.lbr">Help for Elf/OS base tools 1/31/2021 (FEAB)</a>
+  <li><a href="software/packages/bios.lbr">Help for BIOS API 12/20/2020 (6D36)</a>
+  <li><a href="software/packages/elfos.lbr">Help for ElfOS API 12/20/2020 (678F)</a>
+  <li><a href="software/packages/rcbasic.lbr">Help for Rc/Basic 12/20/2020 (D1A4)</a>
+  <li><a href="software/packages/rclisp.lbr">Help for Rc/Lisp 12/20/2020 (F8E6)</a>
+  <li><a href="software/packages/rcforth.lbr">Help for Rc/Forth 12/20/2020 (92E2)</a>
+  <li><a href="software/packages/rcpilot.lbr">Help for Rc/Pilot+ 04/14/2021 (8906)</a>
+  <li><a href="software/packages/rcmouse.lbr">Help for Rc/Mouse 04/14/2021 (6C31)</a>
+  <li><a href="software/packages/rcvtl2.lbr">Help for Rc/VTL2 04/14/2021 (49C9)</a>
+</ul>
+
+<hr>
+<center><h3>Programs for Elf2K</h3></center>
+
+<p><a href="software/elf2k/rcbasic.asm">Rc/Basic source</a><br>
+This is the source file for building both Rc/Basic L1 and Rc/Basic L2, as well
+as the Rom vs Elf/OS versions.  The source uses #define to determine which of
+ther 4 interpreters will be built.
+<hr>
+
+<center><h3>Documentation</h3></center>
+
+<p><a href="software/picoelf/edtasm.txt">EDTASM</a>
+<p><a href="software/picoelf/rcbasic.txt">Rc/Basic</a>
+<p><a href="software/picoelf/forth.txt">Rc/Forth</a>
+<p><a href="software/picoelf/rclisp.txt">Rc/Lisp</a>
+<p><a href="software/picoelf/visual02.txt">Visual/02</a>
+<p><a href="software/picoelf/tbc.txt">TBC</a>
+<p><a href="software/picoelf/lbr.txt">LBR</a>
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,287 @@
+<html>
+<head>
+  <title>Elf/OS API</title>
+</head>
+
+<body bgcolor=white text=black>
+<h3>Elf/Os API</h3>
+<table border=0>
+  <tr>
+    <th>Function</th>
+    <th>Version</th>
+    <th>Notes</th>
+  </tr>
+  <tr valign=top>
+    <td>0306h</td>
+    <td>0.1</td>
+    <td>OPEN - Open file
+        <table border=0>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>RF = Pointer to pathname<br>
+                RD = Pointer to file descriptor, DTA must be pre-filled<br>
+                R7 = Flags<br>
+                <table border=0>
+                  <tr>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td>1</td>
+                    <td>Create if file does not exist</td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td>2</td>
+                    <td>Truncate file on open</td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td>4</td>
+                    <td>Open for append (moves pointer to eof)</td>
+                  </tr>
+                </table>
+             </td>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>RD = File descriptor</td>
+           </tr>
+           </tr>
+           <tr valign=top>
+             <td>Returns:</td>
+             <td>DF=0 - Success<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;RD - File descriptor<br>
+                 DF=1 - Error<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;D - Error Code</td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0312h</td>
+    <td>0.1</td>
+    <td>CLOSE - Close file
+        <table border=0>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>RD = File descriptor</td>
+           </tr>
+           <tr valign=top>
+             <td>Returns:</td>
+             <td>DF=0 - Success<br>
+                 DF=1 - Error<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;D - Error Code</td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>030Ch</td>
+    <td>0.1</td>
+    <td>WRITE - Write to file
+        <table border=0>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>RD = File descriptor<br>
+                RF = Pointer to bytes to write<br>
+                RC = Count of bytes to write</td>
+           </tr>
+           <tr valign=top>
+             <td>Returns:</td>
+             <td>RC = Count of bytes written<br>
+                 DF=0 - Success<br>
+                 DF=1 - Error<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;D - Error Code</td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0309h</td>
+    <td>0.1</td>
+    <td>READ - Read from file
+        <table border=0>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>RD = File descriptor<br>
+                RF = Pointer to buffer<br>
+                RC = Count of bytes to read</td>
+           </tr>
+           <tr valign=top>
+             <td>Returns:</td>
+             <td>RC = Count of bytes read<br>
+                 DF=0 - Success<br>
+                 DF=1 - Error<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;D - Error Code</td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>030Fh</td>
+    <td>0.1</td>
+    <td>SEEK - Change file position
+        <table border=0>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>R8 = High word of seek address<br>
+                R7 = Low word of seek address<br>
+                RD = File descriptor</br>
+                RC = Seek from:
+                <table border=0>
+                  <tr>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+                    <td>Beginning of file</td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+                    <td>Current position</td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+                    <td>End of file</td>
+                  </tr>
+                </table>
+           </td>
+           </tr>
+           <tr valign=top>
+             <td>Returns:</td>
+             <td>R8 = High word of current file pointer<br>
+                 R7 = Low word of current file pointer<br>
+                 DF=0 - Success<br>
+                 DF=1 - Error<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;D - Error Code</td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>031Bh</td>
+    <td>0.1</td>
+    <td>RENAME - Rename a file
+        <table border=0>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>RF = Source filename<br>
+                RC = Destination filename</td>
+           </tr>
+           <tr valign=top>
+             <td>Returns:</td>
+             <td>DF=0 - Success<br>
+                 DF=1 - Error<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;D - Error Code</td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0318h</td>
+    <td>0.1</td>
+    <td>DELETE - Delete a file
+        <table border=0>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>RF = Filename<br>
+           </tr>
+           <tr valign=top>
+             <td>Returns:</td>
+             <td>DF=0 - Success<br>
+                 DF=1 - Error<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;D - Error Code</td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>031Eh</td>
+    <td>0.1</td>
+    <td>EXEC - Execute a program
+        <table border=0>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>RF = Command line<br>
+           </tr>
+           <tr valign=top>
+             <td>Returns:</td>
+             <td>DF=0 - Success<br>
+                 DF=1 - Error<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;D - Error Code</td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0315h</td>
+    <td>0.1</td>
+    <td>OPENDIR - Open directory for reading
+        <table border=0>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>RF = Pathname<br>
+           </tr>
+           <tr valign=top>
+             <td>Returns:</td>
+             <td>RD - File descriptor<br>
+                 DF=0 - Success<br>
+                 DF=1 - Error<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;D - Error Code</td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0321h</td>
+    <td>0.2</td>
+    <td>MKDIR - Make directory
+        <table border=0>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>RF = Pathname<br>
+           </tr>
+           <tr valign=top>
+             <td>Returns:</td>
+             <td>DF=0 - Success<br>
+                 DF=1 - Error<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;D - Error Code</td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0324h</td>
+    <td>0.2</td>
+    <td>CHDIR - Change/Show current directory
+        <table border=0>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>RF = Pathname or
+                     buffer to place current path<br>
+           </tr>
+           <tr valign=top>
+             <td>Returns:</td>
+             <td>DF=0 - Success<br>
+                 DF=1 - Error<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;D - Error Code</td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0327h</td>
+    <td>0.2</td>
+    <td>RMDIR - Remove directory (must be empty)
+        <table border=0>
+          <tr valign=top>
+            <td>Args:</td>
+            <td>RF = Pathname<br>
+           </tr>
+           <tr valign=top>
+             <td>Returns:</td>
+             <td>DF=0 - Success<br>
+                 DF=1 - Error<br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;D - Error Code</td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
+

@@ -1,0 +1,63 @@
+<html>
+<head>
+  <title>16-Bit IDE/ATA Interface</title>
+</head>
+
+<body bgcolor=white text=black>
+<center><h3>16-Bit IDE/ATA Interface</h3></center>
+This circuit provides a 16-bit interface to IDE/ATA devices.
+
+<p>This circuit is utilized by selecting an 8255 port by writing port2 and then
+reading/writing the selected 8255 port on port 3.  PB of the 8255 provides
+the low 8 bits to the IDE device, while PC provides the high 8 bits.
+<p>PA provides the control signals for the IDE bus as follows:
+  <table border=1>
+    <tr>
+      <th>Bit</th>
+      <th>Function<th>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>IDE Bus A0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>IDE Bus A1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>IDE Bus A2</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>IDE Bus CS0 (inverted)</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>IDE Bus CS1 (inverted)</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>IDE Bus WR (inverted)</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>IDE Bus RD (inverted)</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>IDE Bus Reset (inverted)</td>
+    </tr>
+  </table>
+The reason for the inversions are because the 8255 will bring bits to 0 during
+mode changes.
+<p>See the Port Extender schematic to see how Port2, Port3, Inp, and Out are
+derived</p>
+<p><b>Note:</b> This circuit is a work in progress and has not been tested
+in either real hardware or simulation</p>
+
+<img src="ide-16.gif">
+
+</body>
+</html>
+

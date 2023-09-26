@@ -1,0 +1,57 @@
+<html>
+<head>
+  <title>Dice</title>
+</head>
+
+<body bgcolor=white text=black>
+This program simulates the rolling of 2 dice, 1 on each of the data displays.
+While the IN button is pressed the dice will roll, when the IN button is
+released the dice will freeze.  The data switches set the size of the dice,
+for instance if you want to roll one 6-sided and one 8-sided set the data
+switches to 86h.  The high die is cycle balanced and should distribute
+evenly, the low die is not balanced and will favor 1.
+<p>The program is essentially 2 counters.  The first counter controls the low
+die, when it reaches the maximum it will trigger a count on the high counter.
+<pre>
+    1 0000:                        org     0
+    2 0000: f8 f0                  ldi     0f0h      ; setup temporary storage
+    3 0002: a2                     plo     r2
+    4 0003: 90                     ghi     r0
+    5 0004: b2                     phi     r2
+    6 0005: f8 11                  ldi     011h      ; Both dice start at 1
+    7 0007: a7                     plo     r7
+    8 0008: e2                     sex     r2
+    9 0009: 17          loop:      inc     r7        ; increment low die
+   10 000a: 87                     glo     r7
+   11 000b: fa 0f                  ani     0fh       ; strip high die for compare
+   12 000d: 73                     stxd
+   13 000e: 6c                     inp     4         ; read switches
+   14 000f: fa 0f                  ani     0fh       ; keep only low switches
+   15 0011: 60                     irx
+   16 0012: f7                     sm                ; see if die is greater than switches
+   17 0013: 33 2a                  bdf     good1     ; jump if not
+   18 0015: 87                     glo     r7        ; get the high die value
+   19 0016: fa f0                  ani     0f0h      ; strip low die value
+   20 0018: fc 10                  adi     010h      ; increment high die
+   21 001a: 73                     stxd
+   22 001b: 6c                     inp     4         ; read switches
+   23 001c: fa f0                  ani     0f0h      ; keep only high switches
+   24 001e: 60                     irx
+   25 001f: f7                     sm                ; see if die is greater than switches
+   26 0020: 33 26                  bdf     good2     ; jump if not
+   27 0022: f8 11                  ldi     011h      ; reset both dice to 1s
+   28 0024: 30 29                  br      save      ; and save result
+   29 0026: f0          good2:     ldx               ; recover high die value
+   30 0027: f9 01                  ori     1         ; set low die value to 1
+   31 0029: a7          save:      plo     r7        ; save result
+   32 002a: 3f 09       good1:     bn4     loop      ; see if IN is pressed
+   33 002c: 87                     glo     r7        ; if so, then display dice on data displays
+   34 002d: 52                     str     r2
+   35 002e: 64                     out     4
+   36 002f: 22                     dec     r2
+   37 0030: 30 09                  br      loop
+
+</pre>
+</body>
+</html>
+

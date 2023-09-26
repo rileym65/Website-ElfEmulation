@@ -1,0 +1,268 @@
+<html>
+<head>
+  <title>Elf/OS</title>
+</head>
+
+<body bgcolor=white text=black>
+
+<table border=0>
+  <tr>
+    <td><a href="index.html"><img src="home.gif" border=0></a></td>
+    <td><a href="emulator.html"><img src="emulator.gif" border=0></a></td>
+    <td><a href="rcasm.html"><img src="rcasm.gif" border=0></a></td>
+    <td><a href="1802.html"><img src="cpu1802.gif" border=0></a></td>
+    <td><a href="elfos.html"><img src="elfos.gif" border=0></a></td>
+    <td><a href="software.html"><img src="software.gif" border=0></a></td>
+    <td><a href="hardware.html"><img src="hardware.gif" border=0></a></td>
+    <td><a href="gallery.html"><img src="gallery.gif" border=0></a></td>
+  </tr>
+</table>
+
+<center><h3>Elf/OS</h3></center>
+<p>This is my project to create a disk based operating system for Elf class
+computers.  I am designing this OS initially for the hardware that I already
+have for my real Elf.
+
+<h4>News:</h4>
+<table border=0>
+  <tr valign=top>
+    <td></td>
+    <td>6/11/2008</td>
+    <td>
+      Fixed 256 line problem with Elf/OS EDIT command.  This can be found
+      on the Elf/OS downloads page.  The Elf/OS distribution file does NOT
+      have the fixed version.
+    </td>
+  </tr> 
+  <tr valign=top>
+    <td>0.2.8 192</td>
+    <td>8/21/2007</td>
+    <td>
+      Corrected problem in o_seek when seeking beyond eof.
+    </td>
+  </tr> 
+  <tr valign=top>
+    <td>0.2.8 186</td>
+    <td>3/16/2007</td>
+    <td>
+      Corrected problem in BININST.
+    </td>
+  </tr> 
+  <tr valign=top>
+    <td>0.2.8</td>
+    <td>7/31/2006</td>
+    <td>
+      Added o_execbin and o_setdef API calls<br>
+      Added support for sectors per lump as power of 2 from 1 to 128<br>
+      Kernel now attempts to execute /BIN/SHELL on startup
+    </td>
+  </tr> 
+  <tr>
+    <td></td>
+    <td>7/28/2006</td>
+    <td>Posted "Inside Elf/OS" documentation</td>
+  </tr> 
+  <tr valign=top>
+    <td>0.2.6</td>
+    <td>3/1/2005</td>
+    <td>
+      Added filename validation to o_open.  It should no longer be possible
+      to create/open files with illegal filenames.  Valid filename characters
+      are A-Z, a-z, 0-9, -, _, and .<br>
+      Final slash no longer needed on CHDIR and RMDIR<br>
+      Final slash does not cause invalid directories on MKDIR<br>
+      DIR now lists in wide mode<br>
+      Added printer i/o vectors<br>
+      Date/Time written in directories when RTC is present<br>
+      <b>Bios 1.0.4 or higher is required</b><br>
+      Updated Elf/OS manual
+    </td>
+  </tr>
+  <tr valign=top>
+    <td></td>
+    <td>1/25/2005</td>
+    <td>Updated BIOS to version 1.0<br>
+        Updated ASM</td>
+  </tr> 
+  <tr>
+    <td></td>
+    <td>12/10/2004</td>
+    <td>Updated INSTALL, DUMP, SAVE, and LOAD</td>
+  </tr> 
+  <tr valign=top>
+    <td>0.2.5</td>
+    <td>12/09/2004</td>
+    <td>Fixed some bugs in SAVE, DUMP, LOAD, and INSTALL<br>
+        Changed the boot sequence to remove the AutoBaud feature, this
+        makes the kernel easier to use when using BIOSIO.  If BIOSIO is
+        not being used, then the serial AutoBaud will be still be 
+        executed<br>
+        The Elf/OS installer is still serial only, but I do plan on releasing
+        a BIOSIO version of the installer soon
+        </td>
+  </tr>
+  <tr valign=top>
+    <td>0.2.4</td>
+    <td>11/30/2004</td>
+    <td>Terminal I/O archetecture for kernel changed to allow for other types of
+        terminal devices.<br>
+        O_TYPE, O_MSG, O_READKEY, O_INPUT have been added (these currently call
+        F_TYPE, F_MSG, F_READKEY, F_INPUT from BIOS)<br>
+        Kernel now attempts to execute /INIT during boot process.  This can be
+        any Elf/OS executable program, but must return properly to Elf/OS at 
+        conclusion.  Initially this can be used to initialize other I/O devices
+        or other system specific devices.  I will be writing a full INIT prgram
+        that can read a startup script for running multiple programs at startup.
+    </td>
+  </tr>
+  <tr valign=top>
+    <td></td>
+    <td>09/14/2004</td>
+    <td>Added RC/Lisp to Elf/OS software page<br>
+        Updated EDIT</td>
+  </tr>
+  <tr valign=top>
+    <td>0.2.3</td>
+    <td>08/26/2004</td>
+    <td>Added modes 1 and 2 to o_seek, added append option to o_open<br>
+        Updated STAT command</td>
+  </tr>
+  <tr>
+    <td>0.2.2</td>
+    <td>08/05/2004</td>
+    <td>Mostly small changes.  Added STAT command</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>07/21/2004</td>
+    <td>Updated ASM, DUMP, and SAVE</td>
+  </tr> 
+  <tr>
+    <td>0.2</td>
+    <td>07/13/2004</td>
+    <td>Added subdirectory support, added truncate on open to o_open</td>
+  </tr>
+  <tr>
+    <td>0.1</td>
+    <td>06/29/2004</td>
+    <td>Intial release of Elf/OS.
+        <a href="elfos/screendumps.html">Screen Shots</a></td>
+  </tr>
+</table>
+<hr>
+<h4>Downloads</h4>
+These files contain only the install package.  A valid BIOS is required to
+install and use these packages.  The source contains only the kernel source,
+sources to other tools can be found on the Elf/OS software page.
+<p>
+<table width="100%">
+  <tr>
+    <td width="20%" align=left>0.1</td>
+    <td width="20%" align=left>6/29/2004</td>
+    <td width="20%" align=left><a href="elfos/elfos_0_1.hex">hex</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_1.intel">intel</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_1.tgz">source</a></td>
+  </tr>
+  <tr>
+    <td width="20%" align=left>0.2</td>
+    <td width="20%" align=left>7/13/2004</td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2.hex">hex</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2.intel">intel</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2.tgz">source</a></td>
+  </tr>
+  <tr>
+    <td width="20%" align=left>0.2.2</td>
+    <td width="20%" align=left>8/05/2004</td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_2.hex">hex</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_2.intel">intel</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_2.tgz">source</a></td>
+  </tr>
+  <tr>
+    <td width="20%" align=left>0.2.3</td>
+    <td width="20%" align=left>8/26/2004</td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_3.hex">hex</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_3.intel">intel</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_3.tgz">source</a></td>
+  </tr>
+  <tr>
+    <td width="20%" align=left>0.2.4</td>
+    <td width="20%" align=left>11/30/2004</td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_4.hex">hex</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_4.intel">intel</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_4.tgz">source</a></td>
+  </tr>
+  <tr>
+    <td width="20%" align=left>0.2.5</td>
+    <td width="20%" align=left>12/09/2004</td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_5.hex">hex</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_5.intel">intel</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_5.tgz">source</a></td>
+  </tr>
+  <tr>
+    <td width="20%" align=left>0.2.6</td>
+    <td width="20%" align=left>3/1/2005</td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_6.hex">hex</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_6.intel">intel</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_6.tgz">source</a></td>
+  </tr>
+  <tr>
+    <td width="20%" align=left>0.2.6</td>
+    <td width="20%" align=left>5/10/2005</td>
+    <td width="20%" align=left><a href="elfos/elfos2k_0_2_6.hex">Elf 2000 Version</a></td>
+    <td width="20%" align=left></td>
+    <td width="20%" align=left></td>
+  </tr>
+  <tr>
+    <td width="20%" align=left>0.2.8</td>
+    <td width="20%" align=left>3/31/2007</td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_8.hex">hex</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_8.intel">intel</a></td>
+    <td width="20%" align=left><a href="elfos/elfos_0_2_8.tgz">source</a></td>
+  </tr>
+  <tr>
+    <td width="20%" align=left>0.2.8</td>
+    <td width="20%" align=left>8/23/2007</td>
+    <td width="20%" align=left><a href="elfos/elfos2k_0_2_8.hex">Elf 2000 Version</a></td>
+    <td width="20%" align=left></td>
+    <td width="20%" align=left></td>
+  </tr>
+</table>
+
+<hr>
+<a href="elfos/software/software.html">Elf/OS Software downloads</a>
+<hr>
+<h4>Elf/OS Related documents</h4>
+<ul>
+  <li><a href="elfos/elfos.txt">Elf/OS Manual</a><br>
+      What little that currently exists of the Elf/OS manual<p>
+  <li><a href="elfos/inside.txt">Inside Elf/OS</a><br>
+      This document describes the inner workings of the Elf/OS kernel<p>
+  <li><a href="elfos/hardware.html">Hardware</a><br>
+      This document describes the hardware requirements for running Elf/OS<p>
+  <li><a href="elfos/bios.html">BIOS</a><br>
+      This document describes the API of the Elf/OS BIOS<p>
+  <li><a href="elfos/hd.html">Hard Disk Structure</a><br>
+      This document describes the hard disc structure utilized by Elf/OS<p>
+  <li><a href="elfos/elfos_api.html">Elf/OS API</a><br>
+      The API for Elf/OS is described in this document<p>
+  <li><a href="biosio.html">Click here to view the biosio page</a><br>
+Biosio is a bios module that simplifies the usage of various terminal systems
+used on Elf Computers.  This module provides a uniform I/O interface to three
+different video systems: 1861/port 7 keyboard (Elf II), 6847/port 5 keyboard
+(Super Elf), and Serial (Q, EF4).  Programs written to use this module will
+be capable of running on any of these 3 video systems.<p>
+  <li><a href="elfos/eminstall.html">Installing Elf/OS on the RCS Elf emulator</a><br>
+      This document describes how to install Elf/OS onto my emulator<p>
+  <li><a href="elfos/meinstall.html">Installing Elf/OS on the Micro/Elf</a><br>
+      This document describes how to install Elf/OS onto the Micro/Elf<p>
+  <li><a href="elfos/xr.txt">Installing XR</a><br>
+      This document describes how to install XR onto an Elf/OS system<p>
+  <li><a href="elfos/largedisk.txt">Installing Elf/OS on a large disk</a><br>
+      This document describes how to install Elf/OS onto a CF card that
+      is larger than 250mb<p>
+
+</ul>
+</table>
+</body>
+</html>
+

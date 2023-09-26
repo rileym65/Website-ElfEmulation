@@ -1,0 +1,106 @@
+<html>
+<head>
+  <title>Elf Hardware</title>
+</head>
+
+<body bgcolor=white text=black>
+
+<table border=0>
+  <tr>
+    <td><a href="index.html"><img src="home.gif" border=0></a></td>
+    <td><a href="emulator.html"><img src="emulator.gif" border=0></a></td>
+    <td><a href="rcasm.html"><img src="rcasm.gif" border=0></a></td>
+    <td><a href="1802.html"><img src="cpu1802.gif" border=0></a></td>
+    <td><a href="elfos.html"><img src="elfos.gif" border=0></a></td>
+    <td><a href="software.html"><img src="software.gif" border=0></a></td>
+    <td><a href="hardware.html"><img src="hardware.gif" border=0></a></td>
+    <td><a href="gallery.html"><img src="gallery.gif" border=0></a></td>
+  </tr>
+</table>
+
+<center><h3>Hardware</h3></center>
+<p><a href="hardware/mapper.html">1mb Memory Mapper</a>
+<p><a href="hardware/portExtender.html">Port Extender</a>
+<p><a href="hardware/dma.html">Multiple DMA Selector</a>
+<p><a href="hardware/ide8.html">8-bit IDE/ATA Interface</a>
+<p><a href="hardware/ide16.html">16-bit IDE/ATA Interface</a>
+<p><a href="hardware/microelf.png">Schematic for the Micro/Elf</a>
+<ul type=none>
+<li><a href="hardware/microelf.sch">Eagle Schematic for Micro/Elf</a>
+<li><a href="hardware/microelf.brd">Eagle .BRD file for Micro/Elf</a><br>
+</ul>
+<p><a href="hardware/hexpad.gif">Schematic for hex keypad expansion</a>
+<ul type=none>
+<li><a href="hardware/hexpad.sch">Eagle Schematic for hex keypad</a>
+<li><a href="hardware/hexpad.brd">Eagle .BRD file for Micro/Elf Hexpad</a><br>
+</ul>
+<p><a href="hardware/expansion2.png">Schematic for expansion card</a>
+<ul type=none>
+<li><a href="hardware/elfMiniExpansion.sch">Eagle Schematic for expansion card</a>
+</ul>
+<p><a href="hardware/video_kbd.png">Schematic for Video/Keyboard expansion</a>
+   - This requires version 2 of the expansion bus<br>
+<ul type=none>
+  <li><a href="hardware/video.sch">Eagle Schematic for Video/Keyboard expansion</a>
+</ul>
+
+<p><b>Pico/Elf</b> - The Pico/Elf is a Micro/Elf derivative.  By eliminating the 
+displays and switches (as well as associated circuitry), i have been able
+to add the IDE, Serial port, and Eprom socket.  Circuitry has been added to
+allow the computer to boot from rom by swapping 32k banks until the upper
+32k is accessed.  This machine also includes the Version 2 Micro/Elf
+expansion connector.  This is an excellent small comptuer for running Elf/OS
+<ul type=none>
+  <li><a href="hardware/picoelf.png">Schematic</a>
+  <li><a href="hardware/PicoElf.sch">Eagle .sch file</a>
+  <li><a href="hardware/PicoElf.brd">Eagle .brd file</a>
+  <li>Pico/Elf I/O card, provides address display, Data display on port 4, Q LED, and hex keypad on Port 4
+  <ul type=none>
+    <li><a href="hardware/picoelfIO.png">Schematic</a>
+    <li><a href="hardware/PicoElfIO.sch">Eagle .sch file</a>
+    <li><a href="hardware/PicoElfIO.brd">Eagle .brd file</a>
+  </ul>
+</ul>
+
+<p><b>Pico/Elf V2</b> - The Pico/Elf V2 is a redesign of the Pico/Elf.
+  2 changes were made, first the serial circuits were replaced with a 
+  max232 which allows the Pico/Elf to run from a single +5v supply.  I have
+  also added the decoupling capacitors to the board, thus no longer needing
+  sockets with built in capacitors,  This should make the Pico/Elf cheaper
+  to build.
+
+<ul type=none>
+  <li><a href="hardware/picoelf2.png">Schematic</a>
+  <li><a href="hardware/PicoElf2.sch">Eagle .sch file</a>
+  <li><a href="hardware/PicoElf2.brd">Eagle .brd file</a>
+</ul>
+
+<p>Display board for Pico/Elf V2, by Bob from STG<br>
+This adds 2 hex displays on port 4.</p>
+<ul type=none>
+  <li><a href="hardware/PicoElf-DIsplay-Board.pdf">Schematic</a>
+  <li><a href="hardware/PicoElf-DIsplay-Board-1A.zip">Gerbers</a>
+</ul>
+
+<p><b>TMS9118/9918 Color Board</b> - This board adds 256x192 color graphics to an
+elf computer.  This chip uses its own video memory and does not require any CPU
+cycles during video frames.  Many thanks to Richard for helping me to get this 
+board running!  This board also includes the interface to connect to PC style
+keyboards.
+<ul type=none>
+  <li><a href="hardware/tms9918.png">Schematic</a>
+</ul>
+
+<p><b>Voice Synthesizer</b>
+<p><a href="hardware/voice.png">Schematic</a> to attach a SP0256-AL2 Voice synthesizer chip to a Micr/Elf or
+Pico/Elf
+
+<p><b>512k Memory expansion</b>
+This circuit allows easy addition of page switched memory to an Elf computer.  This circuit is a 512k memory expansion, pages are swapped in 16k blocks and are mapped from 8000h-BFFFh.  By increasing the latch to 8 bits it would be possible to add up to 4mb of ram.<br>
+This expansion is designed to plug into a 27c256 EPROM socket, moving the rom onto the expansion board (although only the top 16k of the rom would be readable).  The only modification to the Elf woulg be to attach MRD to pin1 of the socket (normally the VPP of the EPROM).
+<ul type=none>
+  <li><a href="hardware/Elf_Ems.png">Schematic</a>
+</ul>
+</body>
+</html>
+

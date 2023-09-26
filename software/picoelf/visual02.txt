@@ -1,0 +1,33 @@
+?P              - Dump memory from R[P]
+?X              - Dump memory from R[X]
+?Rn             - Dump memory from R[n]
+?nnnn           - Dump memory from address nnnn
+$P              - Disassemble from R[P]
+$X              - Disassemble from R[X]
+$Rn             - Disassemble from R[n]
+$nnnn           - Disassemble from address nnnn
+!P bb bb ...    - store bytes into address R[P]
+!X bb bb ...    - Store bytes into address R[X]
+!Rn bb bb ...   - Store bytes into address R[n]
+!aaaa bb bb ... - Store bytes into address aaaa
+@aaaa           - Set to run at address aaaa
+Rn=bb           - Set R[n] to bb
+P=n             - Set P to n
+X=n             - Set X to n
+D=nn            - Set D to nn
+DF=b            - Set DF to b
+Q=b             - Set Q
+IE=b            - Set IE
+T=nn            - Set T
+I               - Trigger interrupt action
+B+nnnn          - Set breakpoint at nnnn
+B-nnnn          - Remove breakpoint at nnnn
+BC              - Clear all breakpoints
+T+nn            - Set trap for instruction nn
+T-nn            - Remove trap for instruction nn
+TC              - Clear all traps
+<enter>         - Step 1 instruction
+G               - Go until next breakpoint or trap
+E               - Exit
+A               - Switch to EDTASM (Pico/Elf only)
+

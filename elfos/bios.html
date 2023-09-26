@@ -1,0 +1,1367 @@
+<html>
+<head>
+  <title>BIOS API</title>
+</head>
+
+<body bgcolor=white text=black>
+
+<h4>BIOS API</h4>
+<table border=0>
+  <tr>
+    <th align=left>Date</th>
+    <th align=left>Version</th>
+    <th align=left>Notes</th>
+  </tr>
+  <tr>
+    <td>1/20/2003</td>
+    <td><a href="bios_0_1.tgz">0.1</a></td>
+    <td>Initial Bios Release
+  </tr>
+  <tr>
+    <td>2/19/2004</td>
+    <td><a href="bios_0_2.tgz">0.2</a></td>
+    <td>Added cold boot routine, stack call, and stack return<td>
+  </tr>
+  <tr>
+    <td valign=top>3/23/2004</td>
+    <td valign=top><a href="bios_0_3.tgz">0.3</a></td>
+    <td valign=top>Added terminal baud, 8-bit multiply, 16-bit divide,
+        Changed register assignments to standards<td>
+  </tr>
+  <tr>
+    <td>3/23/2004</td>
+    <td><a href="bios_0_3_1.tgz">0.3.1</a></td>
+    <td>Fixed error in floppy boot routine. Thanks Richard for finding that!</td>
+  </tr>
+  <tr>
+    <td>3/29/2004</td>
+    <td><a href="bios_0_4.tgz">0.4</a></td>
+    <td>Added support for IDE read/write and reset<td>
+  </tr>
+  <tr valign=top>
+    <td>4/07/2004</td>
+    <td><a href="bios_0_5.tgz">0.5</a></td>
+    <td>Major restructuring of bios call convention.  BIOS calls are now called
+        with SCALL and SRET method</td>
+  </tr>
+  <tr valign=top>
+    <td>4/21/2004</td>
+    <td><a href="bios_0_6.tgz">0.6</a></td>
+    <td>Added f_hexin,f_hexout2,f_hexout4,f_initcall,f_bootide
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>6/07/2004</td>
+    <td><a href="bios_0_7.tgz">0.7</a></td>
+    <td>Added f_minimon,f_atoi,f_intout,f_uintout</td>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>7/21/2004</td>
+    <td><a href="bios_0_8.tgz">0.8</a></td>
+    <td>Replaced serial routines, now allows up to 2400 baud with 1.7mhz clock</td>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>10/11/2004</td>
+    <td><a href="bios_0_9.tgz">0.9</a></td>
+    <td>SCALL and SRET now set X=2<br>
+        f_inmsg added for outputting inline messages<br>
+        f_input has been modified to allow up to 256 bytes on entry<br>
+        f_inputl has been added to allow for specified limited buffer input<br>
+        &lt;CTRL&gt;&lt;C&gt; will terminate terminal input and set DF<br>
+        Fixed remainder bug in f_div16
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>1/25/2005</td>
+    <td><a href="bios_1_0.tgz">1.0</a></td>
+    <td>Removed Floppy Disk routines<br>
+        Added: f_isnum, f_isalpha, f_ishex, f_isalnum, f_findtkn, f_idnum, f_isterm
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>3/1/2005</td>
+    <td><a href="bios_1_0_4.tgz">1.0.4</a></td>
+    <td>Added: f_getdev<br>
+        Added support for STG Elf 2000 IDE/UART/RTC board
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>11/6/2017</td>
+    <td><a href="bios_1_0_6.tgz">1.0.6</a></td>
+    <td>Merged in changes from Robert Armstrong for Elf2k expansions
+    </td>
+  </tr>
+</table>
+<br><br>
+<b>Bios Functions</b>
+<table border=0>
+  <tr>
+    <th align=left>Function</th>
+    <th align=left>Name</th>
+    <th align=left>Version</th>
+    <th align=left>Notes</th>
+  </tr>
+  <tr valign=top>
+    <td>0FF00h</td>
+    <td>f_boot</td>
+    <td>0.5</td>
+    <td>Cold boot from ide<br>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF03h</td>
+    <td>f_type</td>
+    <td>0.5</td>
+    <td>Type charcter to terminal<br>
+        0Ch is translated to &lt;ESC&gt;[2J<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>D - Character to type<br>
+                RE.1 - Baud Constant</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF06h</td>
+    <td>f_read</td>
+    <td>0.5</td>
+    <td>Read charcter from terminal<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RE.1 - Baud Constant</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>D - Read character</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF09h</td>
+    <td>f_msg</td>
+    <td>0.5</td>
+    <td>Type message to terminal<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF - pointer to asciiz string<br>
+                RE.1 - Baud Constant</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF0Fh</td>
+    <td>f_input</td>
+    <td>0.5</td>
+    <td>Read string from terminal (fixed buffer length of 256)<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF - pointer to input buffer<br>
+                RE.1 - Baud Constant</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Input finished with &lt;ENTER&gt;<br>
+                DF=1 - Input finished with &lt;CTRL&gt;&lt;C&gt;</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF12h</td>
+    <td>f_strcmp</td>
+    <td>0.5</td>
+    <td>Compare strings<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF = pointer to string_1<br>
+                RD = pointer to string_2</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>string_1 = string_2 D=00<br>
+                string_1 &lt; string_2 D=FF<br>
+                string_1 &gt; string_2 D=01 </td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF15h</td>
+    <td>f_ltrim</td>
+    <td>0.5</td>
+    <td>Left trim string<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF = pointer to string</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RF points to first non-whitespace character</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF18h</td>
+    <td>f_strcpy</td>
+    <td>0.5</td>
+    <td>String copy<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF = pointer to source string,0 terminated<br>
+                RD = pointer to destination string</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF1Bh</td>
+    <td>f_memcpy</td>
+    <td>0.5</td>
+    <td>Memory copy<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF = pointer to source string<br>
+                RD = pointer to destination string<br>
+                RC = count of bytes to copy</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF1Eh</td>
+    <td>f_wrtsec</td>
+    <td>0.5</td>
+    <td>Write sector to disk (current drive, track)<br>
+        Function removed in version 1.0<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF = pointer to data<br>
+                RC.0 = Sector to write</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>D - Result from FDC</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF21h</td>
+    <td>f_rdsec</td>
+    <td>0.5</td>
+    <td>Read sector from disk (current drive, track)<br>
+        Function removed in version 1.0<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF = pointer to buffer<br>
+                RC.0 = Sector to read</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>D - Result from FDC</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF24h</td>
+    <td>f_seek0</td>
+    <td>0.5</td>
+    <td>Seek to track 0 (current drive)<br>
+        Function removed in version 1.0<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>None</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>D - Result from FDC</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF27h</td>
+    <td>f_seek</td>
+    <td>0.5</td>
+    <td>Seek to track (current drive)<br>
+        Function removed in version 1.0<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RC.0 = Track</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>D - Result from FDC</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF2Ah</td>
+    <td>f_drive</td>
+    <td>0.5</td>
+    <td>Select drive<br>
+        Function removed in version 1.0<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RC.0 = Drive (1=drive 1,2=drive 2,4=drive 3,8=drive 4)</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF2Dh</td>
+    <td>f_setbd</td>
+    <td>0.5</td>
+    <td>Determine terminal baud rate<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>Needs &lt;CR&gt; or &lt;LF&gt; type at console<br>
+                &lt;CR&gt; - Use full duplex mode<br>
+                &lt;LF&gt; - Use half duplex mode</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RE.1 = Baud Constant</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF30h</td>
+    <td>f_mul16</td>
+    <td>0.5</td>
+    <td>Multiply 16-bit by 16-bit<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF = First number<br>
+                RD = Second number</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RB = Low word of 32-bit result<br>
+                RC = High word of 32-bit result</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF33h</td>
+    <td>f_div16</td>
+    <td>0.5</td>
+    <td>Divide 16-bit by 16-bit<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF = First number<br>
+                RD = Second number</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RB = 16-bit result<br>
+                RF = 16-bit remainder</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF36h</td>
+    <td>f_idereset</td>
+    <td>0.5</td>
+    <td>Reset IDE subsystem<br>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF39h</td>
+    <td>f_idewrite</td>
+    <td>0.5</td>
+    <td>Write IDE Sector<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF   = Pointer to disk transfer buffer<br>
+                R7.0 = value for Sector Start Register<br>
+                R7.1 = value for Cylinder Lo Register<br>
+                R8.0 = value for Cylinder Hi Register<br>
+                R8.1 = value for Head/Device Register<br>
+                R2   = Valid stack</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>D = Controller Status Register</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF3Ch</td>
+    <td>f_ideread</td>
+    <td>0.5</td>
+    <td>Read IDE Sector<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF   = Pointer to disk transfer buffer<br>
+                R7.0 = value for Sector Start Register<br>
+                R7.1 = value for Cylinder Lo Register<br>
+                R8.0 = value for Cylinder Hi Register<br>
+                R8.1 = value for Head/Device Register<br>
+                R2   = must point to suitable stack</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>D = Controller Status Register</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF3Fh</td>
+    <td>f_initcall</td>
+    <td>0.6</td>
+    <td>Initiallize SCALL and SRET<br>
+        This routine is invoked with LBR not scall.
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>R6 - Return address</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>R4 - Call vector for SCALL<br>
+                R5 - Call vector for SRET</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF42h</td>
+    <td>f_bootide</td>
+    <td>0.6</td>
+    <td>Boot IDE device<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>None</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF45h</td>
+    <td>f_hexin</td>
+    <td>0.6</td>
+    <td>Convert ascii hex to binary<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF = Buffer pointer to characters string</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RD - Binary representation of number<br>
+                RF - Pointing at first non-alphanumeric character</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF48h</td>
+    <td>f_hexout2</td>
+    <td>0.6</td>
+    <td>Convert binary byte to ascii string<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RD.0 = Number to convert<br>
+                RF = Buffer pointer</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RD - Consumed<br>
+                RF - Pointing to first byte after conversion</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF4Bh</td>
+    <td>f_hexout4</td>
+    <td>0.6</td>
+    <td>Convert binary word to ascii string<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RD = Number to convert<br>
+                RF = Buffer pointer</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RD - Consumed<br>
+                RF - Pointing to first byte after conversion</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF4Eh</td>
+    <td>f_tty</td>
+    <td>0.6</td>
+    <td>Type charcter to terminal, no translations<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>D - Character to type<br>
+                RE.1 - Baud Constant</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF54h</td>
+    <td>f_minimon</td>
+    <td>0.7</td>
+    <td>Jump to mini-monitor<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>none</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF57h</td>
+    <td>f_freemem</td>
+    <td>0.7</td>
+    <td>Get memory size<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>none</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RF - Last writable address</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF5DH</td>
+    <td>f_atoi</td>
+    <td>0.7</td>
+    <td>Convert ASCII to integer<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF - Pointer to ascii string</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RD - Converted number</td>
+            <td>RF - First non-numeric character</td>
+            <td>DF=1 - First characters was non-numeric</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF60h</td>
+    <td>f_uintout</td>
+    <td>0.7</td>
+    <td>Convert unsigned integer to ASCII<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RD - Number to convert</td>
+            <td>RF - Buffer to store ascii number</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RF - Last position + 1</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF63h</td>
+    <td>f_intout</td>
+    <td>0.7</td>
+    <td>Convert signed integer to ASCII<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RD - Number to convert</td>
+            <td>RF - Buffer to store ascii number</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RF - Last position + 1</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF66h</td>
+    <td>f_inmsg</td>
+    <td>0.9</td>
+    <td>Type inline message to terminal<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>Bytes following call are output<br>
+                RE.1 - Baud Constant</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF69h</td>
+    <td>f_inputl</td>
+    <td>0.9</td>
+    <td>Read string from terminal (variable buffer length)<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF - pointer to input buffer<br>
+                RC - Maximum allowed input characters<br>
+                RE.1 - Baud Constant</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Input finished with &lt;ENTER&gt;<br>
+                DF=1 - Input finished with &lt;CTRL&gt;&lt;C&gt;</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF6Ch</td>
+    <td>f_brktest</td>
+    <td>0.9.1</td>
+    <td>Check for serial break<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>none</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Break no asserted<br>
+                DF=1 - Break asserted</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF5Ah</td>
+    <td>f_isnum</td>
+    <td>1.0</td>
+    <td>Check for numeric character (0-9)<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>D - Character to check</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Character is non-numeric<br>
+                DF=1 - Character is numeric</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF72h</td>
+    <td>f_isalpha</td>
+    <td>1.0</td>
+    <td>Check for alpha character (A-Z,a-z)<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>D - Character to check</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Character is non-alpha<br>
+                DF=1 - Character is alpha</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF75h</td>
+    <td>f_ishex</td>
+    <td>1.0</td>
+    <td>Check for hex character (0-9,A-F,a-f)<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>D - Character to check</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Character is non-hex<br>
+                DF=1 - Character is hex</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF78h</td>
+    <td>f_isalnum</td>
+    <td>1.0</td>
+    <td>Check for alphanumeric character (0-9,A-Z,a-z)<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>D - Character to check</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Character is non-alphanumeric<br>
+                DF=1 - Character is alphanumeric</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF7Eh</td>
+    <td>f_isterm</td>
+    <td>1.0</td>
+    <td>Check for terminating character (any characer that is not f_alnum)<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>D - Character to check</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Character is non-terminator<br>
+                DF=1 - Character is terminator</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF6Fh</td>
+    <td>f_findtkn</td>
+    <td>1.0</td>
+    <td>Find token within a token table<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF - Pointer to ascii symbol to search for<br>
+                R7 - Pointer to symbol table</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RD - Entry number<br>
+                DF=0 - Entry was not found<br>
+                DF=1 - Entry is valid</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF7Bh</td>
+    <td>f_idnum</td>
+    <td>1.0</td>
+    <td>Identify symbol type<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF - Pointer to ascii symbol</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>D=0 - Symbol is a decimal number<br>
+                D=1 - Symbol is a hex number<br>
+                DF=0 - Symbol is a valid number<br>
+                DF=1 - Symbol is an invalid number</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0FF81h</td>
+    <td>f_getdev</td>
+    <td>1.0.4</td>
+    <td>Get supported deivces<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>None</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RF - Supported device map<br>
+              <table border=0>
+                <tr>
+                  <th>Bit</th>
+                  <th>Device</th>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>IDE</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>Floppy</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Bit-banged serial</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>UART</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>RTC</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>NVR</td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td>1861 Video</td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td>9118 Video</td>
+                </tr>
+              </table>
+          </tr>
+        </table>
+    </td>
+  </tr>
+</table>
+
+<hr>
+
+<b>Optional Bios Functions</b>
+<p><b>Note:</b> These functions may not be available in all versions of the BIOS.
+At present, these are only supported in the Elf 2000 version of the BIOS.
+<p>
+<table border=0>
+  <tr>
+    <th align=left>Function</th>
+    <th align=left>Name</th>
+    <th align=left>Version</th>
+    <th align=left>Notes</th>
+  </tr>
+  <tr valign=top>
+    <td>0F800h</td>
+    <td>f_bread</td>
+    <td>1.0.4</td>
+    <td>Read charcter from bit-banged serial port<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RE.1 - Baud Constant</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>D - Read character</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F803h</td>
+    <td>f_btype</td>
+    <td>1.0.4</td>
+    <td>Type charcter to bit-banged serial port<br>
+        0Ch is translated to &lt;ESC&gt;[2J<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>D - Character to type<br>
+                RE.1 - Baud Constant</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F80Ch</td>
+    <td>f_btest</td>
+    <td>1.0.4</td>
+    <td>Check for serial break on bit-banged serial port<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>none</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Break no asserted<br>
+                DF=1 - Break asserted</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F809h</td>
+    <td>f_utype</td>
+    <td>1.0.4</td>
+    <td>Type charcter to UART serial port<br>
+        0Ch is translated to &lt;ESC&gt;[2J<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>D - Character to type<br>
+                RE.1 - Baud Constant</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F80Ch</td>
+    <td>f_uread</td>
+    <td>1.0.4</td>
+    <td>Read charcter from UART serial port<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RE.1 - Baud Constant</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>D - Read character</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F812h</td>
+    <td>f_usetbd</td>
+    <td>1.0.4</td>
+    <td>Set communication parameters on UART serial port<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>D - Baud Constant<br>
+              <table border=0>
+                <tr>
+                  <th>Bit(s)</th>
+                  <th>Value</th>
+                  <th>Meaning</th>
+                </tr>
+                <tr>
+                  <td>2-0</td>
+                  <td>0 0 0</td>
+                  <td>300 Baud</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>0 0 1</td>
+                  <td>1200 Baud</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>0 1 0</td>
+                  <td>2400 Baud</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>0 1 1</td>
+                  <td>4800 Baud</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1 0 0</td>
+                  <td>9600 Baud</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1 0 1</td>
+                  <td>19200 Baud</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1 1 0</td>
+                  <td>38400 Baud</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1 1 1</td>
+                  <td>76800 Baud</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td></td>
+                  <td>Reserved</td>
+                </tr>
+                <tr>
+                  <td>5-4</td>
+                  <td>0 0</td>
+                  <td>5 bit words</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>0 1</td>
+                  <td>6 bit words</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1 0</td>
+                  <td>7 bit words</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1 1</td>
+                  <td>8 bit words</td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td>0</td>
+                  <td>No parity</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1</td>
+                  <td>Parity enabled</td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td>0</td>
+                  <td>Odd parity</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>1</td>
+                  <td>Even parity</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=1 - UART not installed<br>
+                DF=0 - Success</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F815h</td>
+    <td>f_gettod</td>
+    <td>1.0.4</td>
+    <td>Get Time Of Day<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF - Buffer to receive TOD information</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Success<br>
+                DF=1 - Error<br>
+                D=0 - No RTC<br>
+                D=1 - Invalid Time
+          </tr>
+        </table>
+    </td>
+  <tr valign=top>
+    <td>0F818h</td>
+    <td>f_settod</td>
+    <td>1.0.4</td>
+    <td>Set Time Of Day<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF - Buffer to date/time data</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Success<br>
+                DF=1 - No RTC<br>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F81Bh</td>
+    <td>f_rdnvr</td>
+    <td>1.0.4</td>
+    <td>Read bytes from NVR<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF.0 - Relative address to begin reading<br>
+                RD   - Destination for bytes<br>
+                RC.0 - Count of bytes to read</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Success<br>
+                DF=1 - No NVR<br>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F81Eh</td>
+    <td>f_wrnvr</td>
+    <td>1.0.4</td>
+    <td>Write bytes to NVR<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF.0 - Relative address to begin reading<br>
+                RD   - Source for bytes<br>
+                RC.0 - Count of bytes to read</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Success<br>
+                DF=1 - No NVR<br>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F821h</td>
+    <td>f_idesize</td>
+    <td>1.0.4</td>
+    <td>Get size in MB of IDE hard disk<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RD.0=0 - Master drive<br>
+                RD.0-1 - Slave drive</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RF - Size of drive in MB, 0=no drive</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F824h</td>
+    <td>f_ideid</td>
+    <td>1.0.4</td>
+    <td>Get IDE identification data<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF - Pointer to buffer to receive data<br>
+                RD.0=0 - Master drive<br>
+                RD.0-1 - Slave drive</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=0 - Success<br>
+                DF=1 - Drive error</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F827h</td>
+    <td>f_dttoas</td>
+    <td>1.0.4</td>
+    <td>Convert date to ASCII<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RD - Pointer to binary date<br>
+                RF - Pointer to destination buffer</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RD - Points to time portion of binary date</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F82Ah</td>
+    <td>f_tmtoas</td>
+    <td>1.0.4</td>
+    <td>Convert time to ASCII<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RD - Pointer to binary time<br>
+                RF - Pointer to destination buffer</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F827h</td>
+    <td>f_dttoas</td>
+    <td>1.0.4</td>
+    <td>Convert date to ASCII<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RD - Pointer to binary date<br>
+                RF - Pointer to destination buffer</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>RD - Points to time portion of binary date</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F82Dh</td>
+    <td>f_rtctest</td>
+    <td>1.0.4</td>
+    <td>Test for existance of RTC<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>None</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>DF=1 RTC is present<br>
+                DF=0 RTC is not present<br>
+                D - Size of NVR in RTC
+            </td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F830h</td>
+    <td>f_astodt</td>
+    <td>1.0.4</td>
+    <td>Convert ASCII date to binary<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF - Pointer to ASCII date<br>
+                RD - Pointer to destination buffer</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>0F833h</td>
+    <td>f_astotm</td>
+    <td>1.0.4</td>
+    <td>Convert ASCII time to binary<br>
+        <table border=0>
+          <tr valign=top>
+            <td>Input:</td>
+            <td>RF - Pointer to ASCII time<br>
+                RD - Pointer to destination buffer</td>
+          </tr>
+          <tr valign=top>
+            <td>Output:</td>
+            <td>None</td>
+          </tr>
+        </table>
+    </td>
+  </tr>
+
+</table>
+
+<hr>
+
+<b>Bios routine addresses:</b>
+<table border=0>
+  <tr>
+    <th align=left>Routine</th>
+    <th align=left>Address</th>
+    <th align=left>Function</th>
+  </tr>
+  <tr>
+    <td>CALL</td>
+    <td>0FFE0h</td>
+    <td>Standard stack-based call</td>
+  </tr>
+  <tr>
+    <td>RET</td>
+    <td>0FFF1h</td>
+    <td>Standard stack-based return</td>
+  </tr>
+</table>
+  
+</body>
+</html>
+

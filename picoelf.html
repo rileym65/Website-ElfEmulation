@@ -1,0 +1,196 @@
+<html>
+<head>
+  <title>Pico/Elf V2</title>
+</head>
+
+<body bgcolor=white text=black>
+<center>
+<h3>Pico/Elf V2</h3>
+</center>
+<p>
+Pico/Elf V2 is an evolution of the Micro/Elf.  Pico/Elf removes the address display, data displays,
+and input togges along with associated circutiry in order to add an RS232 port, ROM socket and IDE/CF
+interface, allowing for a complete machine capable of running Elf/OS.
+<p>
+<b>Features:</b>
+  <ul type=disc>
+    <li>32k Ram
+    <li>32k Rom
+    <li>RS232 port
+    <li>IDE/CF port
+    <li>Compact design, board is only 5" x 3.75"
+    <li>Micro/Elf Expansion connector
+  </ul>
+<p><b>News:</b>
+<table border=0>
+  <tr>
+    <td valign=top>11/17/2020</td>
+    <td>
+      Added pinout of expansion connector<br>
+      Added Bernie Murphy's really nice memory map of the Disk-less ROM
+    </td>
+  </tr>
+  <tr>
+    <td valign=top>10/03/2020</td>
+    <td>
+      Updated BOM and posted picture of parts layout
+    </td>
+  </tr>
+  <tr>
+    <td valign=top>9/29/2020</td>
+    <td>
+      The Pico/Elf V2 boards have been ordered
+    </td>
+  </tr>
+  <tr>
+    <td valign=top>9/28/2020</td>
+    <td>
+      Added a download for the Pico/Elf V2 BIOS image.  This image contains the Elf/OS installer and
+      the Pico/Elf V2 bios.  You can download it <a href="picoelf_ref_rq.hex">here</a>
+    </td>
+  </tr>
+  <tr>
+    <td valign=top>8/8/2020</td>
+    <td>
+      Assembled one of the production prototypes (pictures below).  Now I just need to find what I need to
+      run it.
+    </td>
+  </tr>
+  <tr>
+    <td valign=top>8/4/2020</td>
+    <td>
+      Wow that was quick! The test run of 5 boards arrived today. I posted a photo below.  Will try to
+      get one built and tested in the next couple days.
+    </td>
+  </tr>
+  <tr>
+    <td valign=top>8/3/2020</td>
+    <td>I received an email this morning indicating the production prototypes are complete and
+       have been shipped.  I ordered 5 of these prototypes, I will build 1, leave one unbuilt
+       and for the remaining 3 I would like to see if anybody would like to help testing of
+       the boards.  If you are interested in being one of the testers let me know.  All I ask
+       is that you have the requisite knowledge, skills, and tools needed to help debug the board
+       should it be needed.  As a thank you for helping test the boards, I will provide the
+       boards at no cost.
+     </td>
+  </tr>
+  <tr>
+    <td valign=top>8/2/2020</td>
+    <td>
+      Official start of this project.  At this time 5 test boards have been ordered to check the quality
+      of the new PCB fab that I am using for this project.
+      <p>
+      At this time 33 people have requested a total of 50 boards.
+      <p>
+      Thanks to the feedback from the COSMAC group in providing me a more affordable PCB fab, I am also
+      considering ordering a new block of Micro/Elf boards for those who may be interested in them as well.
+      <p>
+      Thanks to the more affordable PCB fab, exptected price per board is $1.25 plus shipping from me to you.
+      Plese note this price is an estimate and may change when the bulk order is placed.
+    </td>
+  </tr>
+</table>
+
+<p><b>Preliminary Parts List</b></p>
+<p>
+Please note this parts list is preliminary and may change as I find better options for some parts.
+These parts are sourced from Digi-key and Jameco.
+</p>
+<table>
+<tr><th>Part</th><th>Part Number</th><th>Stock Number</th><th>Cost</th><th>Total cost</th></tr>
+<tr><td>IC1</td><td>74ls373</td><td>296-1660-5-ND</td><td>0.93</td><td>0.93</td></tr>
+<tr><td>IC2</td><td>27c256 prom</td><td>AT27C256R-45PU-ND</td><td>2.11</td><td>2.11</td></tr>
+<tr><td>IC3</td><td>74ls04</td><td>296-1629-5-ND</td><td>0.73</td><td> 0.73</td></tr>
+<tr><td>IC4</td><td>74ls138</td><td>296-1639-5-ND</td><td>0.84</td><td> 0.84</td></tr>
+<tr><td>IC5</td><td>74ls32</td><td>296-1658-5-ND</td><td>0.61</td><td>0.61</td></tr>
+<tr><td>IC6</td><td>74ls00</td><td>296-1626-ND</td><td>0.64</td><td> 0.64</td></tr>
+<tr><td>IC7</td><td>Max232</td><td>296-1402-5-ND</td><td>1.49</td><td> 1.49</td></tr>
+<tr><td>IC8</td><td>74ls75</td><td>296-3744-5-ND</td><td>2.19</td><td> 2.19</td></tr>
+<tr><td>IC9</td><td>74ls32</td><td>296-1658-5-ND</td><td>0.61</td><td> 0.61</td></tr>
+<tr><td>IC10</td><td>74ls00</td><td>296-1626-ND</td><td>0.64</td><td> 0.64</td></tr>
+<tr><td>IC11</td><td>74ls74</td><td>296-1668-5-ND</td><td>0.61</td><td>0.61</td></tr>
+<tr><td>IC12</td><td>74ls86</td><td>296-1669-5-ND</td><td>0.61</td><td> 0.61</td></tr>
+<tr><td>IC13</td><td>CY7C199 (32k ram)</td><td>242376 (jameco)</td><td>3.95</td><td>3.95</td></tr>
+<tr><td>IC14    CDP1802</td><td>???</td><td>????</td><td>????</td></tr>
+<tr><td></td><td> Crystal Oscillator</td><td>110-MXO45-3C-4M000000-ND</td><td>1.15</td><td>1.15</td></tr>
+<tr><td></td><td> 2x4  pin header</td><td>952-1788-ND</td><td>0.30</td><td> 0.30</td></tr>
+<tr><td></td><td>2x20 pin header</td><td>732-5310-ND</td><td>1.89</td><td>1.89</td></tr>
+<tr><td></td><td>2x20 pin header</td><td>732-5310-ND</td><td>1.89</td><td>1.89</td></tr>
+<tr><td>Push button</td><td>2281479 (Jameco)</td><td>8.49</td><td>8.49</td></tr>
+<tr><td>C1-C4</td><td>1uf Tantalum Cap</td><td>478-4168-ND</td><td>0.36</td><td> 1.44</td></tr>
+<tr><td>C5-C18</td><td>0.1uf ceramic</td><td>399-9859-1-ND</td><td>0.23</td><td>3.22</td></tr>
+<tr><td></td><td>power connector</td><td>232282 (Jameco)</td><td>0.29</td><td> 0.29</td></tr>
+<tr><td>r6-R12</td><td>47kohm</td><td>CF14JT47K0CT-ND</td><td>0.10</td><td>0.70</td></tr>
+<tr><td>R13,R14</td><td>330ohm</td><td>CF14JT330RCT-ND</td><td>0.10</td><td>0.20</td></tr>
+<tr><td></td><td>14pin sockets x 7</td><td>AE9989-ND</td><td>0.22</td><td>1.54</td></tr>
+<tr><td></td><td>16pin sockets x 3</td><td>AE9992-ND</td><td>0.25</td><td>0.75</td></tr>
+<tr><td></td><td>20pin socket</td><td>AE9998-ND</td><td>0.29</td><td>0.29</td></tr>
+<tr><td></td><td>28pin .3 socket</td><td>123-AR28-HZL/01/7-TT-ND</td><td>2.54</td><td>2.54</td></tr>
+<tr><td></td><td>28pin .6 socket</td><td>AE10004-ND</td><td>0.42</td><td>0.42</td></tr>
+<tr><td></td><td> 40pin socket</td><td>AE10008-ND</td><td>0.51</td><td>0.51</td></tr>
+<tr><td></td><td>Crystal Oscillator socket</td><td>A462-ND</td><td>0.75</td><td>0.75</td></tr>
+<tr><td></td><td>Jumper/Shunt</td><td>SAM15271-ND</td><td>0.24</td><td>0.24</td></tr>
+<tr><td></td><td>DB9 Male Right angle</td><td>104943 (Jameco)</td><td>0.75</td><td>0.75</td></tr>
+</table>
+<p>
+For those who prefer to use 74HC parts:
+<p>
+<table>
+<tr><td>IC1</td><td>74hc373</td><td>296-1591-5-ND</td><td>0.53</td><td>0.53</td></tr>
+<tr><td>IC3</td><td>74hc04</td><td>296-1566-5-ND</td><td>0.57</td><td> 0.57</td></tr>
+<tr><td>IC4</td><td>74hc138</td><td>296-1575-5-ND</td><td>0.44</td><td> 0.44</td></tr>
+<tr><td>IC5</td><td>74hc32</td><td>296-1589-5-ND</td><td>0.39</td><td>0.39</td></tr>
+<tr><td>IC6</td><td>74hc00</td><td>296-1563-5-ND</td><td>0.39</td><td> 0.39</td></tr>
+<tr><td>IC8</td><td>74hc75</td><td>296-9240-5-ND</td><td>0.89</td><td> 0.89</td></tr>
+<tr><td>IC9</td><td>74hc32</td><td>296-1589-5-ND</td><td>0.39</td><td> 0.39</td></tr>
+<tr><td>IC10</td><td>74hc00</td><td>296-1563-5-ND</td><td>0.39</td><td> 0.39</td></tr>
+<tr><td>IC11</td><td>74hc74</td><td>296-1602-5-ND</td><td>0.39</td><td>0.39</td></tr>
+<tr><td>IC12</td><td>74hc86</td><td>296-8375-5-ND</td><td>0.44</td><td> 0.44</td></tr>
+</table>
+<p>
+
+<p><b>Expansion Connector:</b></p>
+<pre><tt>
+       A0  1   2  D0
+       A1  3   4  D1
+       A2  5   6  D2
+       A3  7   8  D3
+       A4  9  10  D4
+       A5 11  12  D5
+       A6 13  14  D6
+       A7 15  16  D7
+      TPA 17  18  TPB
+     /INP 19  20  EF1
+     /OUT 21  22  EF2
+    PORT1 23  24  EF3
+  /DMA_IN 25  26  EF4
+ /DMA_OUT 27  28  INT
+     /MRD 29  30  /MWR
+      SC0 31  32  SC1
+        Q 33  34  GND
+    PORT2 35  36  PORT5
+    PORT3 37  38  PORT6
+    PORT4 39  40  PORT7
+</tt></pre>
+
+<p><b>Gallery:</b></p>
+<table>
+  <tr>
+    <td><a href="picoelfV1.jpg"><img src="picoelfV1_thumb.png"></a><br>Pico/Elf V1 prototype</td>
+    <td><a href="picoelf_1.jpg"><img src="picoelf_1_thumb.png"></a><br>Unbuilt V2 prototype pcb</td>
+    <td><a href="picoelfV2.jpg"><img src="picoelfV2_thumb.png"></a><br>Pico/Elf V2 prototype</td>
+    <td><a href="picoelfproductionprototype.jpg"><img src="picoelfproductionprototype_thumb.png"></a><br>Pico/Elf V2  production prototype</td>
+  </tr>
+  <tr>
+    <td><a href="picoelfbuild1.jpg"><img src="picoelfbuild1_thumb.png"></a><br>Assembled Pico/Elf V2</td>
+    <td><a href="picoelfbuild2.jpg"><img src="picoelfbuild2_thumb.png"></a><br>Populated Pico/Elf V2</td>
+    <td><a href="picoelfPartNames.jpg"><img src="picoelfPartNames_Thumb.jpg"></a><br>Parts Layout</td>
+  </tr>
+</table>
+
+<p>Here is a really nice memory map produced by Bernie Murphy of the Disk-less
+ROM:
+<p>
+<img src="diskless.png">
+</body>
+</html>

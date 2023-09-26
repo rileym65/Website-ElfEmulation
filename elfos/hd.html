@@ -1,0 +1,177 @@
+<html>
+<head>
+  <title>Elf/OS Hard Disk Structure</title>
+</head>
+
+<body bgcolor=white text=black>
+<h3>Hard Disk Structure</h3>
+The hard disk is used in LBA mode, therefore all sector addresses are LBA addresses.
+<p><b>File System Layout</b>
+<table border=0>
+  <tr>
+    <th>Sector</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>Boot Sector</td>
+  </tr>
+  <tr>
+    <td>1 - 16</td>
+    <td>Kernel Image (8k)</td>
+  </tr>
+  <tr>
+    <td>17 - AS</td>
+    <td>Alloction Table</td>
+  </tr>
+  <tr>
+    <td>AS+1 - AS+8</td>
+    <td>Master Directory</td>
+  </tr>
+  <tr>
+    <td>AS+9 -</td>
+    <td>Data Sectors</td>
+  </tr>
+</table>
+<p>
+AS is computed as (total_sectors/sectors_per_au)/entries_per_sector + 17<p>
+total_sectors - Total number of sectors on disk<br>
+sectors_per_au - Number of sectors per allocation unit (default 8, 4k AUs)<br>
+entries_per_sector = 256 when less than 65535 allocation units, otherwise 128
+<p>
+The allocation table is setup as AU chain.  The directory entry for a file specifies
+the first AU number.  The allocation table then has a pointer to the next AU for a 
+file.  There are 2 special AU codes:
+<table border=0>
+  <tr>
+    <td>0FFFFh</td>
+    <td>Unavailable AU</td>
+  </tr>
+  <tr>
+    <td>0FEFEh</td>
+    <td>End of chain</td>
+  </tr>
+</table>
+<p><b>Boot Sector Layout</b>
+<table border=0>
+  <tr>
+    <th>Byte Offset</th>
+    <th>Description>
+  </tr>
+  <tr>
+    <td>0-255</td>
+    <td>Boot code</td>
+  </tr>
+  <tr>
+    <td>256-259</td>
+    <td>Total sector count on disk</td>
+  </tr>
+  <tr>
+    <td>260</td>
+    <td>File system type (1=elfos, others are undefined)</td>
+  </tr>
+  <tr>
+    <td>261-264</td>
+    <td>First sector of Master Directory</td>
+  </tr>
+  <tr>
+    <td>265-266</td>
+    <td>Size of AU in sectors</td>
+  </tr>
+  <tr>
+    <td>267-270</td>
+    <td>Number of AUs</td>
+  </tr>
+</table>
+
+<pre>
+Directory structure:
+--------------------
+byte   description
+0-3    First Sector, 0=free entry
+4-5    eof byte
+6      flags1
+       0 - file is a subdir
+7-8    Packed date
+9-10   Packed time
+11-31  filename
+
+Date format:              Time Format:
+------------              ------------
+7654 3210  7654 3210      7654 3210  7654 3210
+|_______|____|_____|      |____||______||____|
+  YEAR    MO     DY         HR    MIN    SEC/2
+</pre>
+
+<a name="bootsectcode"></a>
+<h4>Boot Sector Code</h4>
+<pre>
+; ************************************
+; *** Define disk boot sector      ***
+; *** This runs at 100h            ***
+; *** Expects to be called with R0 ***
+; ************************************
+call:      equ     0ffe0h
+ret:       equ     0fff1h
+scall:     equ     r4
+sret:      equ     r5
+boot:      ghi     r0                  ; get current page
+           phi     r3                  ; place into r3
+           ldi     low bootst          ; boot start code
+           plo     r3
+           sep     r3                  ; transfer control
+bootst:    ldi     high call           ; setup call vector
+           phi     r4
+           ldi     low call
+           plo     r4
+           ldi     high ret            ; setup return vector
+           phi     r5
+           ldi     low ret
+           plo     r5
+           ldi     0                   ; setup an initial stack
+           phi     r2
+           ldi     0f0h
+           plo     r2
+           ldi     1                   ; setup sector address
+           plo     r7
+           ldi     3                   ; starting page for kernel
+           phi     rf                  ; place into read pointer
+           ldi     0
+           plo     rf
+           sex     r2                  ; set stack pointer
+bootrd:    glo     r7                  ; save R7
+           stxd
+           ldi     0                   ; prepare other registers
+           phi     r7
+           plo     r8
+           ldi     0e0h
+           phi     r8
+           sep     scall               ; call bios to read sector
+           dw      f_ideread
+           irx                         ; recover R7
+           ldxa
+           plo     r7
+           inc     r7                  ; point to next sector
+           glo     r7                  ; get count
+           smi     17                  ; was last sector (16) read?
+           bnz     bootrd              ; jump if not
+           ldi     3                   ; setup jump to os
+           phi     r0
+           ldi     0
+           plo     r0
+           sep     r0                  ; jump to os
+</pre>
+
+<h4>Program to initiate boot from HD</h4>
+<pre>
+           org     0
+           ldi     0
+           phi     r2
+           ldi     0ffh
+           plo     r2
+           sex     r2
+           lbr     0ff00h
+</pre>
+</body>
+</html>
+

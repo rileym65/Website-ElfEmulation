@@ -1,0 +1,126 @@
+<html>
+<head>
+  <title>Rc/Asm Assembler</title>
+</head>
+
+<body bgcolor=white text=black>
+
+<table border="0">
+  <tbody><tr>
+    <td><a href="index.html"><img src="home.gif" border="0"></a></td>
+    <td><a href="emulator.html"><img src="emulator.gif" border="0"></a></td>
+    <td><a href="rcasm.html"><img src="rcasm.gif" border="0"></a></td>
+    <td><a href="1802.html"><img src="cpu1802.gif" border="0"></a></td>
+    <td><a href="elfos.html"><img src="elfos.gif" border="0"></a></td>
+    <td><a href="software.html"><img src="software.gif" border="0"></a></td>
+    <td><a href="hardware.html"><img src="hardware.gif" border="0"></a></td>
+    <td><a href="gallery.html"><img src="gallery.gif" border="0"></a></td>
+  </tr>
+</tbody></table>
+
+<center><h3>Rc/Asm</h3></center>
+<p>Rc/Asm is a cross-platform table-driven cross-assembler.  The assembly
+process is controlled by special definition tables that allow the assembler
+to identify assembly sequences and produce object code.
+
+</p><p>Rc/Asm is written in generic C code and should compile on just about
+any computer where a C compiler exists.
+
+</p><p>This package includes the definition files for the following processors:
+</p><ul type="disc">
+  <li>1802
+  </li><li>1805
+  </li><li>4004
+  </li><li>6502
+  </li><li>8080
+  </li><li>Z8
+  </li><li>Z80
+  </li><li>pic 24c5xx
+  </li><li>CHIP-8
+</li></ul>
+
+<p>The included definition files demonstrate all wildcard matching and
+code construction features of the assembler.
+
+</p><p>You can downlaod the <a href="rcasm.tgz">Rc/Asm Assembler</a> here.<br>
+</p>
+Here is a windows binary:&nbsp; <a href="rcasm3_windows.tgz">Windows Version</a><br>
+
+<br>
+
+
+<table border="0">
+
+  <tbody><tr>
+    <th>Date</th>
+    <th>Version</th>
+    <th>Notes</th>
+  </tr>
+  <tr valign="top">
+    <td>7/9/2007</td>
+    <td>3.0</td>
+    <td>Added embedded assembly capability<br>
+        Made it possible to use the : character in assembly definitions
+        </td>
+  </tr>
+  <tr valign="top">
+    <td>5/3/2006</td>
+    <td>2.8</td>
+    <td>Fixed case problem when using MACROs<br>
+        Macro expansion no longer affects line number
+        </td>
+  </tr>
+  <tr valign="top">
+    <td>2/8/2006</td>
+    <td>2.6</td>
+    <td>
+      The assembler can now accept an extension on the input file<br>
+      Error messages are now written to stderr instead of stdout<br>
+      The hard-coded label limit has been removed<br>
+      An integrated preprocessor has been added. The following directives can
+      be used: #DEFINE, #UNDEF, #IFDEF, #IFNDEF, #ELSE, and #ENDIF.  #IFs can
+      be nested<br>
+      A -D option has been added to the allowed arguments, it is essentially
+      a #DEFINE that can be set on the command line.
+      The environment variable RCASM_DIR will be checked for the directory
+      containing the .def files<br>
+      The environment variable RCASM_OPTIONS can be used to pass options to
+      the assembler.  These options are checked AFTER the rcasm.rc file and
+      BEFORE the command line.
+    </td>
+  </tr>
+  <tr valign="top">
+    <td>5/10/2005</td>
+    <td>2.5</td>
+    <td>Fixed critical bug in multi-argument instructions (1802 was not affected by this)<br>
+        Added 6502 definition file
+        </td>
+  </tr>
+  <tr valign="top">
+    <td>4/29/2005</td>
+    <td>2.4</td>
+    <td>Fixed bug in pass 1 EQUates<br>
+        Added CHIP-8 definition file
+        </td>
+  </tr>
+  <tr>
+    <td>6/07/2004</td>
+    <td>2.3</td>
+    <td>Added ability to output in Intel Hex format</td>
+  </tr>
+  <tr>
+    <td>2/19/2004</td>
+    <td>2.2</td>
+    <td>Added an 1805 definition file</td>
+  </tr>
+  <tr>
+    <td>1/26/2004</td>
+    <td>2.1</td>
+    <td>Corrected buffer overrun error on longer lines</td>
+  </tr>
+</tbody>
+</table>
+
+
+</body>
+</html>
